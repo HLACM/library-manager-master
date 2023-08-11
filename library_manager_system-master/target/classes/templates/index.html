@@ -1,39 +1,56 @@
+
+
 <!DOCTYPE html>
+<!--通过使用Thymeleaf模板引擎的命名空间声明xmlns:th="http://www.thymeleaf.org"，我们可以在HTML模板中使用Thymeleaf的各种功能和语法。
+它告诉Thymeleaf解析器，在HTML文档中遇到以"th:"开头的属性或标签时，要将其视为Thymeleaf模板的相关指令进行解析和处理。-->
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 
+    <title>图书管理系统</title>
 
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <style>
 
         body {
-            /*width: 100%;*/
-            /*height: 100%;*/
-            background: url("/images/background.png") no-repeat;
-            /*background: url("static/images/a.png") no-repeat;*/
+            /*页面背景图*/
+            background: url("/images/BG.jpg") no-repeat;
+            /*背景全覆盖*/
             background-size: cover;
         }
 
         #login_form {
+            /* 设置登录表单的宽度为400像素 */
             width: 400px;
-            height: 400px;
-            margin: 80px auto;
-            padding: 30px;
-            background-color: #f2f2f2;
-            opacity: 0.9;
-        }
 
+            /* 设置登录表单的高度为400像素 */
+            height: 400px;
+
+            /* 设置登录表单的上下间距为80像素，并水平居中 */
+            margin: 80px auto;
+
+            /* 设置登录表单的内边距为30像素 */
+            padding: 30px;
+
+            /* 设置登录表单的背景颜色为(#c2eabf) */
+            background-color: #c2eabf;
+
+            /* 设置登录表单的透明度为0.8 */
+            opacity: 0.8;
+        }
     </style>
 </head>
+
+
+
 <body>
 
 <div id="wrapper">
     <div class="layui-container" id="login_form">
 
         <div>
-            <h1 style="color: red">图书管理系统</h1>
+            <h1 style="color: green">DGUT图书管理系统</h1>
             <br>
             <h2>用户登录</h2>
             <br>
@@ -102,7 +119,7 @@
         let username = $("#username").val();
         let user_judge = check(username);
 
-        // 首先判断用户名是否为空 
+        // 首先判断用户名是否为空
         if (user_judge) {
             let password = $("#password").val();
             let pwd_judge = check(password);
@@ -116,7 +133,7 @@
                     $("#my_form").submit();
                 } else {
 
-                    //如果是管理员 , 则将action 进行更改 
+                    //如果是管理员 , 则将action 进行更改
                     $("#my_form").attr("action", "/adminLogin")
                     $("#my_form").submit();
                 }
