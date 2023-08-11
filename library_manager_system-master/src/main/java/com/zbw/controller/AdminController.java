@@ -30,7 +30,7 @@ public class AdminController {
     private IUserService userService;
 
     /**
-     * 判断admin是否存在
+     * 实现登录功能中的判断admin是否存在
      *
      * @param adminName
      * @return
@@ -39,6 +39,7 @@ public class AdminController {
     @ResponseBody
     public String adminIsExist(@Param("adminName") String adminName) {
         boolean b = adminService.adminIsExist(adminName);
+        //为前端返回判断是否存在的字符串
         if (b) {
             return "true";
         } else {
@@ -47,7 +48,7 @@ public class AdminController {
     }
 
     /**
-     * 管理员登陆
+     * 管理员登陆功能
      *
      * @param userName
      * @param password
@@ -55,17 +56,18 @@ public class AdminController {
      */
     @PostMapping("/adminLogin")
     public String adminLogin(@Param("userName") String userName, @Param("password") String password, HttpServletRequest request) {
+       //
         Admin admin = adminService.adminLogin(userName, password);
 
-        if (admin == null) {
-            // flag 为 1 表示 登录失败 
+        if (admin == null) {//对象为空，未匹配到用户
+            //向前端发送数据，flag 为 1 表示 登录失败
             request.getSession().setAttribute("flag", 1);
             return "index";
         }
-
         // flag = 0 表示用户名密码校验成功
         request.getSession().setAttribute("flag", 0);
         request.getSession().setAttribute("admin", admin);
+        //返回路径登录到主页
         return "admin/index";
     }
 
