@@ -4111,6 +4111,7 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-nav-tree .layui-nav-item a {
+    background-color: rgb(52, 138, 99);
     position: relative;
     height: 45px;
     line-height: 45px;
@@ -4126,7 +4127,7 @@ body .layui-table-tips .layui-layer-content {
 .layui-nav-tree .layui-nav-bar {
     width: 5px;
     height: 0;
-    background-color: #009688
+    background-color: white;
 }
 
 .layui-nav-tree .layui-nav-child dd.layui-this,
