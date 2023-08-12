@@ -4161,7 +4161,7 @@ body .layui-table-tips .layui-layer-content {
     height: 40px;
     line-height: 40px;
     color: #fff;
-    color: rgba(255, 255, 255, .7)
+    background-color: #57b271;
 }
 
 .layui-nav-tree .layui-nav-child,

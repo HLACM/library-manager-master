@@ -4121,7 +4121,7 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-nav-tree .layui-nav-item a:hover {
-    background-color: #4E5465
+    background-color: rgb(2 109 61);
 }
 
 .layui-nav-tree .layui-nav-bar {
@@ -4161,7 +4161,7 @@ body .layui-table-tips .layui-layer-content {
     height: 40px;
     line-height: 40px;
     color: #fff;
-    color: rgba(255, 255, 255, .7)
+    background-color: #57b271;
 }
 
 .layui-nav-tree .layui-nav-child,
