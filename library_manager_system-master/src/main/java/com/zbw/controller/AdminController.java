@@ -48,7 +48,7 @@ public class AdminController {
     }
 
     /**
-     * 管理员登陆功能
+     * 管理员登陆功能，匹配失败继续待在登录页面，成功登录主页
      *
      * @param userName
      * @param password
@@ -56,12 +56,13 @@ public class AdminController {
      */
     @PostMapping("/adminLogin")
     public String adminLogin(@Param("userName") String userName, @Param("password") String password, HttpServletRequest request) {
-       //
+       //得到一个对应的Admin对象
         Admin admin = adminService.adminLogin(userName, password);
 
         if (admin == null) {//对象为空，未匹配到用户
             //向前端发送数据，flag 为 1 表示 登录失败
             request.getSession().setAttribute("flag", 1);
+            //返回到登录页面index中
             return "index";
         }
         // flag = 0 表示用户名密码校验成功
@@ -71,6 +72,7 @@ public class AdminController {
         return "admin/index";
     }
 
+    //下面一系列是点击前端页面返回对应的页面的方法代码
     /**
      * 返回添加书籍页面
      */
@@ -137,6 +139,7 @@ public class AdminController {
      */
     @RequestMapping("/adminLogOut")
     public String userLogOut(HttpServletRequest request) {
+        //把对应的信息删除掉再返回到登录页面
         request.getSession().invalidate();
         return "index";
     }
@@ -165,6 +168,7 @@ public class AdminController {
     @ResponseBody
     public boolean updateAdmin(Admin admin, HttpServletRequest request) {
         return adminService.updateAdmin(admin, request);
+        //方法返回一个boolean值，前端根据接收道德boolean值进行页面提示
     }
 
 }

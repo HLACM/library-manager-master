@@ -74,7 +74,7 @@
         book_id, book_name, book_author, book_publish, book_category, book_price, book_introduction
     </sql>
 
-    <select id="selectByExample" parameterType="com.zbw.domain.BookExample" resultMap="BaseResultMap">
+    <select id="selectByExample"  resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
@@ -90,14 +90,14 @@
         </if>
     </select>
 
-    <select id="selectBooksByPartInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectBooksByPartInfo"  resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from book
         where book_name LIKE #{bookPartInfo}
     </select>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey"  resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from book
@@ -105,20 +105,20 @@
     </select>
 
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" >
         delete
         from book
         where book_id = #{bookId,jdbcType=INTEGER}
     </delete>
 
-    <delete id="deleteByExample" parameterType="com.zbw.domain.BookExample">
+    <delete id="deleteByExample" >
         delete from book
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
 
-    <insert id="insert" parameterType="com.zbw.domain.Book">
+    <insert id="insert" >
         insert into book (book_id, book_name, book_author,
                           book_publish, book_category, book_price,
                           book_introduction)
@@ -127,7 +127,7 @@
                 #{bookIntroduction,jdbcType=VARCHAR})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.zbw.domain.Book">
+    <insert id="insertSelective" >
         insert into book
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="bookId != null">
@@ -176,13 +176,13 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.zbw.domain.BookExample" resultType="java.lang.Long">
+    <select id="countByExample"  resultType="java.lang.Long">
         select count(*) from book
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
-    <update id="updateByExampleSelective" parameterType="map">
+    <update id="updateByExampleSelective" >
         update book
         <set>
             <if test="record.bookId != null">
@@ -211,7 +211,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByExample" parameterType="map">
+    <update id="updateByExample" >
         update book
         set book_id = #{record.bookId,jdbcType=INTEGER},
         book_name = #{record.bookName,jdbcType=VARCHAR},
@@ -224,7 +224,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.zbw.domain.Book">
+    <update id="updateByPrimaryKeySelective" >
         update book
         <set>
             <if test="bookName != null">
@@ -248,7 +248,7 @@
         </set>
         where book_id = #{bookId,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.zbw.domain.Book">
+    <update id="updateByPrimaryKey" >
         update book
         set book_name         = #{bookName,jdbcType=VARCHAR},
             book_author       = #{bookAuthor,jdbcType=VARCHAR},

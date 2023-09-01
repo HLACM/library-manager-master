@@ -23,6 +23,12 @@ public class AdminServiceImpl implements IAdminService {
     @Resource
     private BookCategoryMapper bookCategoryMapper;
 
+
+    /**
+     * 查询数据库中是否有对应用户
+     * @param name
+     * @return
+     */
     @Override
     public boolean adminIsExist(String name) {
         AdminExample adminExample = new AdminExample();
@@ -37,18 +43,16 @@ public class AdminServiceImpl implements IAdminService {
         return true;
     }
 
+    //进行条件判断并返回一个Admin对象
     @Override
     public Admin adminLogin(String name, String password) {
-
         AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
         criteria.andAdminNameEqualTo(name);
         List<Admin> admin = adminMapper.selectByExample(adminExample);
-
         if (null == admin) {
             return null;
         }
-        
         for (Admin a : admin) {
             if (a.getAdminPwd().equals(password)) {
                 return a;
@@ -81,6 +85,12 @@ public class AdminServiceImpl implements IAdminService {
         return false;
     }
 
+    /**
+     * 修改对应的管理员信息
+     * @param admin
+     * @param request
+     * @return
+     */
     @Override
     public boolean updateAdmin(Admin admin, HttpServletRequest request) {
         //获取session对象中admin对象
