@@ -2,10 +2,12 @@ package com.zbw.mapper;
 
 import com.zbw.domain.Admin;
 import com.zbw.domain.AdminExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface AdminMapper {
     long countByExample(AdminExample example);
 

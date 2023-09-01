@@ -8,6 +8,7 @@ import com.zbw.service.IBookService;
 import com.zbw.service.IBorrowingBooksRecordService;
 import com.zbw.service.IUserService;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +24,13 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    @Resource
+    @Autowired
     private IUserService userService;
 
-    @Resource
+    @Autowired
     private IBorrowingBooksRecordService borrowingBooksRecordService;
 
-    @Resource
+    @Autowired
     private IBookService bookService;
 
     /**

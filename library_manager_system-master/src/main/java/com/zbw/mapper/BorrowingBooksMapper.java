@@ -2,10 +2,12 @@ package com.zbw.mapper;
 
 import com.zbw.domain.BorrowingBooks;
 import com.zbw.domain.BorrowingBooksExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface BorrowingBooksMapper {
     long countByExample(BorrowingBooksExample example);
 

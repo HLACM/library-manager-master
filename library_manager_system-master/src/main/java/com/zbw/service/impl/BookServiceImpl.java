@@ -8,6 +8,7 @@ import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
 import com.zbw.service.IBookService;
 import com.zbw.utils.page.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,9 +18,9 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements IBookService {
 
-    @Resource
+    @Autowired
     private BookMapper bookMapper;
-    @Resource
+    @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
 
     @Override

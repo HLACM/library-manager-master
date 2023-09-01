@@ -5,6 +5,7 @@ import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookCategoryMapper;
 import com.zbw.mapper.BookMapper;
 import com.zbw.service.IAdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,13 +15,13 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements IAdminService {
 
-    @Resource
+    @Autowired
     private AdminMapper adminMapper;
 
-    @Resource
+    @Autowired
     private BookMapper bookMapper;
 
-    @Resource
+    @Autowired
     private BookCategoryMapper bookCategoryMapper;
 
 

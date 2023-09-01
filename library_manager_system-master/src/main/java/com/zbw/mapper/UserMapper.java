@@ -2,10 +2,12 @@ package com.zbw.mapper;
 
 import com.zbw.domain.User;
 import com.zbw.domain.UserExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface UserMapper {
     long countByExample(UserExample example);
 

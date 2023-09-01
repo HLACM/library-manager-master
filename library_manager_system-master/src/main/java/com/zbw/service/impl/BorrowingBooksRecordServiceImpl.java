@@ -9,6 +9,7 @@ import com.zbw.mapper.BorrowingBooksMapper;
 import com.zbw.mapper.UserMapper;
 import com.zbw.service.IBorrowingBooksRecordService;
 import com.zbw.utils.page.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,13 +19,13 @@ import java.util.*;
 
 @Service
 public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordService {
-    @Resource
+    @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
 
-    @Resource
+    @Autowired
     private BookMapper bookMapper;
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
 
 

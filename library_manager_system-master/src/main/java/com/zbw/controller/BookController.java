@@ -7,6 +7,7 @@ import com.zbw.service.IAdminService;
 import com.zbw.service.IBookCategoryService;
 import com.zbw.service.IBookService;
 import com.zbw.utils.page.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +19,11 @@ import java.util.List;
 
 @Controller
 public class BookController {
-    @Resource
+    @Autowired
     private IAdminService adminService;
-    @Resource
+    @Autowired
     private IBookService bookService;
-    @Resource
+    @Autowired
     private IBookCategoryService bookCategoryService;
 
     /**

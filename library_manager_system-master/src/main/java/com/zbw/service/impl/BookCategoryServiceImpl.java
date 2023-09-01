@@ -4,6 +4,7 @@ import com.zbw.domain.BookCategory;
 import com.zbw.mapper.BookCategoryMapper;
 import com.zbw.service.IBookCategoryService;
 import com.zbw.utils.page.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,7 +13,7 @@ import java.util.List;
 @Service
 public class BookCategoryServiceImpl implements IBookCategoryService {
 
-    @Resource
+    @Autowired
     private BookCategoryMapper bookCategoryMapper;
 
     @Override

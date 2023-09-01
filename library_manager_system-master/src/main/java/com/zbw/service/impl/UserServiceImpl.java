@@ -8,6 +8,7 @@ import com.zbw.mapper.DepartmentMapper;
 import com.zbw.mapper.UserMapper;
 import com.zbw.service.IUserService;
 import com.zbw.utils.page.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,13 +22,13 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements IUserService {
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
-    @Resource
+    @Autowired
     private DepartmentMapper departmentMapper;
-    @Resource
+    @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
-    @Resource
+    @Autowired
     private BookMapper bookMapper;
 
     @Override

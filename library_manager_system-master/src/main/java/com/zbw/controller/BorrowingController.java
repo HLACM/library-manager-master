@@ -3,6 +3,7 @@ package com.zbw.controller;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.service.IBorrowingBooksRecordService;
 import com.zbw.utils.page.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
 @Controller
 public class BorrowingController {
 
-    @Resource
+    @Autowired
     private IBorrowingBooksRecordService borrowingBooksRecordService;
 
     /**
