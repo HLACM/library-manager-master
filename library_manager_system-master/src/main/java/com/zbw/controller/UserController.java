@@ -1,10 +1,8 @@
 package com.zbw.controller;
 
 
-import com.zbw.domain.Department;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.service.IBookService;
 import com.zbw.service.IBorrowingBooksRecordService;
 import com.zbw.service.IUserService;
 import org.apache.ibatis.annotations.Param;
@@ -16,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -54,16 +50,6 @@ public class UserController {
         return "index";
     }
 
-
-    /**
-     * 查找所有部门
-     */
-//    @RequestMapping("/getDepts")
-//    @ResponseBody
-//    public List<Department> getDepts() {
-//        List<Department> depts = userService.findAllDepts();
-//        return depts;
-//    }
 
 
     /**

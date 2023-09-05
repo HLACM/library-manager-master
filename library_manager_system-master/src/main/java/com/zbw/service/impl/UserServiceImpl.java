@@ -4,14 +4,12 @@ import com.zbw.domain.*;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
-import com.zbw.mapper.DepartmentMapper;
 import com.zbw.mapper.UserMapper;
 import com.zbw.service.IUserService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,8 +22,7 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private DepartmentMapper departmentMapper;
+
     @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
     @Autowired
@@ -43,11 +40,7 @@ public class UserServiceImpl implements IUserService {
         return users;
     }
 
-    @Override
-    public List<Department> findAllDepts() {
 
-        return departmentMapper.selectByExample(new DepartmentExample());
-    }
 
     @Override
     public User userLogin(String userName, String password) {

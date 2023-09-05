@@ -91,19 +91,6 @@ INSERT INTO `borrowingbooks` VALUES ('57', '1', '17', '2023-08-14');
 INSERT INTO `borrowingbooks` VALUES ('61', '1', '16', '2023-08-3');
 
 
-DROP TABLE IF EXISTS `dept`;
-CREATE TABLE `dept` (
-  `dept_id` int(11) NOT NULL AUTO_INCREMENT,
-  `dept_name` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-
-INSERT INTO `dept` VALUES ('1', '信息工程学院');
-INSERT INTO `dept` VALUES ('2', '体育学院');
-INSERT INTO `dept` VALUES ('3', '美术学院');
-INSERT INTO `dept` VALUES ('4', '电子工程学院');
-
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (

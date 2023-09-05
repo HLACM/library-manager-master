@@ -1,6 +1,5 @@
 package com.zbw;
 
-import com.zbw.domain.Department;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.mapper.UserMapper;
@@ -36,17 +35,7 @@ public class UserTest {
         }
     }
 
-    @Test
-    public void findAllDepts(){
-        List<Department> depts=userService.findAllDepts();
-        if(null==depts){
-            System.out.println("null");
-        }else{
-            for(Department d:depts){
-                System.out.println(d.getDeptName());
-            }
-        }
-    }
+
     @Test
     public void updateUserTest(){
         User user=new User();

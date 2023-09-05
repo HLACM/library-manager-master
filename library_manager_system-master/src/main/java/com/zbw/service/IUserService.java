@@ -1,6 +1,5 @@
 package com.zbw.service;
 
-import com.zbw.domain.Department;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.utils.page.Page;
@@ -13,8 +12,6 @@ public interface IUserService {
     // 查询用户名 为"userName"的所有用户
     List<User> findUserByUserName(String userName);
 
-    //查询所有部门
-    List<Department> findAllDepts();
 
     //用户登录
     User userLogin(String userName, String password);
