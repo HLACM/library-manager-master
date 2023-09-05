@@ -30,11 +30,8 @@ public class UserController {
     @Autowired
     private IBorrowingBooksRecordService borrowingBooksRecordService;
 
-    @Autowired
-    private IBookService bookService;
-
     /**
-     * 用户登录
+     * 用户登录（与管理员登录一样）
      *
      * @param userName
      * @return
@@ -57,34 +54,16 @@ public class UserController {
         return "index";
     }
 
-    /**
-     * //验证用户是否存在
-     *
-     * @param userName
-     * @return
-     */
-    @RequestMapping("/isUserExist")
-    @ResponseBody
-    public String isUserExist(@Param("userName") String userName) {
-        List<User> users = userService.findUserByUserName(userName);
-        if (null == users) {
-            return "false";
-        }
-        if (users.size() < 1) {
-            return "false";
-        }
-        return "true";
-    }
 
     /**
      * 查找所有部门
      */
-    @RequestMapping("/getDepts")
-    @ResponseBody
-    public List<Department> getDepts() {
-        List<Department> depts = userService.findAllDepts();
-        return depts;
-    }
+//    @RequestMapping("/getDepts")
+//    @ResponseBody
+//    public List<Department> getDepts() {
+//        List<Department> depts = userService.findAllDepts();
+//        return depts;
+//    }
 
 
     /**

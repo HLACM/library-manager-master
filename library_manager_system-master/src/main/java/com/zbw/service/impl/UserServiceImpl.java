@@ -177,6 +177,11 @@ public class UserServiceImpl implements IUserService {
         return userMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 根据传来的页码参数查询要显示的数据，返回对应封装好数据的page对象
+     * @param pageNum
+     * @return
+     */
     @Override
     public Page<User> findUserByPage(int pageNum) {
         List<User> users = userMapper.selectByPageNum((pageNum - 1) * 10, 10);

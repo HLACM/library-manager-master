@@ -26,36 +26,25 @@ public class AdminServiceImpl implements IAdminService {
 
 
     /**
-     * 查询数据库中是否有对应用户
+     * 判断是否为正确的账户，是则返回对应admin对象，否则返回null
      * @param name
+     * @param password
      * @return
      */
-    @Override
-    public boolean adminIsExist(String name) {
-        AdminExample adminExample = new AdminExample();
-        AdminExample.Criteria criteria = adminExample.createCriteria();
-        criteria.andAdminNameEqualTo(name);
-        List<Admin> admin = adminMapper.selectByExample(adminExample);
-        if (null == admin)
-            return false;
-        if (admin.size() < 1) {
-            return false;
-        }
-        return true;
-    }
-
-    //进行条件判断并返回一个Admin对象
     @Override
     public Admin adminLogin(String name, String password) {
         AdminExample adminExample = new AdminExample();
         AdminExample.Criteria criteria = adminExample.createCriteria();
+        //添加adiminName等于形参name的条件
         criteria.andAdminNameEqualTo(name);
+        //按条件查询对应的对象
         List<Admin> admin = adminMapper.selectByExample(adminExample);
         if (null == admin) {
             return null;
         }
         for (Admin a : admin) {
             if (a.getAdminPwd().equals(password)) {
+                //密码对应正确则返回admin对象
                 return a;
             }
         }
@@ -97,6 +86,7 @@ public class AdminServiceImpl implements IAdminService {
         //获取session对象中admin对象
         Admin sessionAdmin = (Admin) request.getSession().getAttribute("admin");
         admin.setAdminId(sessionAdmin.getAdminId());
+        //按主键id进行数据的更新
         int n = adminMapper.updateByPrimaryKey(admin);
 
         if (n > 0) {

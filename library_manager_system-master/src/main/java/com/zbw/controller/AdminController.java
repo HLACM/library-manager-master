@@ -30,23 +30,6 @@ public class AdminController {
     @Autowired
     private IUserService userService;
 
-    /**
-     * 实现登录功能中的判断admin是否存在
-     *
-     * @param adminName
-     * @return
-     */
-    @RequestMapping("/isAdminExist")
-    @ResponseBody
-    public String adminIsExist(@Param("adminName") String adminName) {
-        boolean b = adminService.adminIsExist(adminName);
-        //为前端返回判断是否存在的字符串
-        if (b) {
-            return "true";
-        } else {
-            return "false";
-        }
-    }
 
     /**
      * 管理员登陆功能，匹配失败继续待在登录页面，成功登录主页
@@ -73,9 +56,8 @@ public class AdminController {
         return "admin/index";
     }
 
-    //下面一系列是点击前端页面返回对应的页面的方法代码
     /**
-     * 返回添加书籍页面
+     * 点击录入新书返回添加书籍页面
      */
     @RequestMapping("/addBookPage")
     public String addBookPage() {
@@ -83,34 +65,19 @@ public class AdminController {
     }
 
     /**
-     * 返回添加类别页面
+     * 点击添加类别返回类别页面，默认展示第一页
      */
     @RequestMapping("/addCategoryPage")
     public String addCategoryPage(@RequestParam("pageNum") int pageNum, Model model) {
         Page<BookCategory> page = bookCategoryService.selectBookCategoryByPageNum(pageNum);
+        //model.addAttribute用于封装前端页面返回需要的数据，在前端页面中，使用EL表达式"${}"获取Map中的数据
         model.addAttribute("page", page);
         return "admin/addCategory";
     }
 
-    /**
-     * 返回查询状态页面
-     */
-    @RequestMapping("/showStausPage")
-    public String showStatusPage() {
-        return "admin/showStaus";
-    }
 
     /**
-     * 返回管理员首页
-     */
-    @RequestMapping("/adminIndex")
-    public String returnAdminIndexPage() {
-        return "admin/index";
-    }
-
-
-    /**
-     * 返回查询用户页面
+     * 返回查询用户页面，，和上面的代码差不多
      */
     @RequestMapping("/showUsersPage")
     public String showUsersPage(Model model, @RequestParam("pageNum") int pageNum) {
@@ -120,7 +87,7 @@ public class AdminController {
     }
 
     /**
-     * 返回&emsp;&emsp;查询书籍页面
+     * 返回&emsp;&emsp;查询书籍页面。和上面不同，未查询书籍前先不显示数据，把页码和页面总数都设置为1
      */
     @RequestMapping("/showBooksPage")
     public String showBooksPage(Model model) {
@@ -140,7 +107,7 @@ public class AdminController {
      */
     @RequestMapping("/adminLogOut")
     public String userLogOut(HttpServletRequest request) {
-        //把对应的信息删除掉再返回到登录页面
+        //把对应存入request的信息删除掉再返回到登录页面
         request.getSession().invalidate();
         return "index";
     }
@@ -169,7 +136,7 @@ public class AdminController {
     @ResponseBody
     public boolean updateAdmin(Admin admin, HttpServletRequest request) {
         return adminService.updateAdmin(admin, request);
-        //方法返回一个boolean值，前端根据接收道德boolean值进行页面提示
+        //该方法返回一个boolean值，前端根据接收到的boolean值进行页面提示
     }
 
 }

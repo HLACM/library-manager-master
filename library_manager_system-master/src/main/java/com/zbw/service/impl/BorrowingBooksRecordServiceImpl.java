@@ -29,6 +29,11 @@ public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordSer
     private UserMapper userMapper;
 
 
+    /**
+     * 查询对应的借书信息
+     * @param pageNum
+     * @return
+     */
     @Override
     public Page<BorrowingBooksVo> selectAllByPage(int pageNum) {
 

@@ -35,6 +35,7 @@ public class BookController {
     @RequestMapping("/addBook")
     @ResponseBody
     public String addBook(Book book) {
+        //方法返回一个布尔值
         boolean res = adminService.addBook(book);
         if (res) {
             return "true";
@@ -43,7 +44,7 @@ public class BookController {
     }
 
     /**
-     * 返回&emsp;&emsp;查询书籍结果页
+     * 返回管理员查询书籍结果页
      *
      * @param pageNum
      * @param model
@@ -51,6 +52,7 @@ public class BookController {
      */
     @RequestMapping("/showBooksResultPageByCategoryId")
     public String showBooksResultPageByCategoryId(@RequestParam("pageNum") int pageNum, @RequestParam("bookCategory") int bookCategory, Model model) {
+        //封装好查询出来的数据
         Page<BookVo> page = bookService.findBooksByCategoryId(bookCategory, pageNum);
         model.addAttribute("page", page);
         model.addAttribute("bookCategory", bookCategory);
@@ -58,22 +60,21 @@ public class BookController {
     }
 
     /**
-     * 返回用户&emsp;&emsp;查询书籍结果页
+     * 返回用户查询书籍结果页
      *
      * @param bookPartInfo
      * @return
      */
     @RequestMapping("/findBookByBookPartInfo")
     public String findBooksResultPage(@RequestParam("bookPartInfo") String bookPartInfo, Model model) {
-        
+        //参数为对应书籍的名字，通过名字查找对应的数据。由于展示的是一条数据所以不需要分页
         List<BookVo> bookVos = bookService.selectBooksByBookPartInfo(bookPartInfo);
-
         model.addAttribute("bookList", bookVos);
         return "user/findBook";
     }
 
     /**
-     * 查询所有书籍种类
+     * 查询所有书籍种类（新建类别页面中展示）
      *
      * @return
      */

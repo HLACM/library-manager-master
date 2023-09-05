@@ -23,6 +23,11 @@ public class BookServiceImpl implements IBookService {
     @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
 
+    /**
+     * 根据书名查找对应书籍
+     * @param partInfo
+     * @return
+     */
     @Override
     public List<BookVo> selectBooksByBookPartInfo(String partInfo) {
 
@@ -57,8 +62,15 @@ public class BookServiceImpl implements IBookService {
     }
 
 
+    /**
+     * 查找对应书籍并封装到Page对象中
+     * @param categoryId
+     * @param pageNum
+     * @return
+     */
     @Override
     public Page<BookVo> findBooksByCategoryId(int categoryId, int pageNum) {
+        //先根据分类id查询基础数据
         List<Book> books = bookMapper.selectByCategoryId(categoryId, (pageNum - 1) * 10, 10);
         List<BookVo> bookVos = new LinkedList<>();
         Page<BookVo> page = new Page<>();
@@ -67,6 +79,7 @@ public class BookServiceImpl implements IBookService {
             page.setPageCount(1);
             return page;
         }
+        //对象不为空则为其注入book对象中的数据以及bookvo对象的其余属性数据
         for (Book b : books) {
             BookVo bookVo = new BookVo();
             bookVo.setBookId(b.getBookId());
@@ -84,6 +97,7 @@ public class BookServiceImpl implements IBookService {
             }
             bookVos.add(bookVo);
         }
+        //设置Page对象中的属性
         page.setList(bookVos);
         page.setPageNum(pageNum);
         page.setPageSize(10);
