@@ -83,18 +83,24 @@ public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordSer
         return page;
     }
 
+    /**
+     *查询用户借书记录并返回一个集合
+     * @param request
+     * @return
+     */
     @Override
     public ArrayList<BorrowingBooksVo> selectAllBorrowRecord(HttpServletRequest request) {
+        //提取当前用户对象
         User user = (User) request.getSession().getAttribute("user");
         if (null == user) {
             return null;
         }
-
+        //数据库查询用户借书记录
         List<BorrowingBooks> list = borrowingBooksMapper.selectAllBorrowRecord(user.getUserId());
         if (null == list) {
             return null;
         }
-
+        //创建BorrowingBooksVo类型的集合，并为它注入属性
         ArrayList<BorrowingBooksVo> borrowingBooksVos = new ArrayList<>();
 
         for (BorrowingBooks b : list) {

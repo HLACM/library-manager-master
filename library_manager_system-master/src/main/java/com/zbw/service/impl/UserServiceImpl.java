@@ -77,43 +77,7 @@ public class UserServiceImpl implements IUserService {
         return false;
     }
 
-    @Override
-    public List<BorrowingBooksVo> findAllBorrowingBooks(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
 
-        //设置查询条件 userId
-        BorrowingBooksExample borrowingBooksExample = new BorrowingBooksExample();
-        BorrowingBooksExample.Criteria criteria = borrowingBooksExample.createCriteria();
-        criteria.andUserIdEqualTo(user.getUserId());
-        List<BorrowingBooks> borrowingBooksList = borrowingBooksMapper.selectByExample(borrowingBooksExample);
-        if (null == borrowingBooksList) {
-            return null;
-        }
-        //将数据库表对应的对象(Do)转化成视图层对象（VO）
-        List<BorrowingBooksVo> res = new LinkedList<BorrowingBooksVo>();
-        for (BorrowingBooks borrowingBooks : borrowingBooksList) {
-            Book book = bookMapper.selectByPrimaryKey(borrowingBooks.getBookId());
-            BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
-            borrowingBooksVo.setBook(book);
-
-            //日期转换
-            Date date1 = borrowingBooks.getDate();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateOfBorrowing = sdf.format(date1);
-
-            //算出还书日期
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date1);
-            calendar.add(Calendar.MONTH, 2);//增加两个月
-            Date date2 = calendar.getTime();
-            String dateOfReturn = sdf.format(date2);
-
-            borrowingBooksVo.setDateOfBorrowing(dateOfBorrowing);
-            borrowingBooksVo.setDateOfReturn(dateOfReturn);
-            res.add(borrowingBooksVo);
-        }
-        return res;
-    }
 
     @Override
     public boolean userReturnBook(int bookId, HttpServletRequest request) {
@@ -148,7 +112,6 @@ public class UserServiceImpl implements IUserService {
         borrowingBooks.setUserId(user.getUserId());
         borrowingBooks.setDate(new Date());
         int n = 0;
-
 
         try {
             //数据库中增加一条借书记录 【如果插入失败 , 则借书失败】

@@ -20,7 +20,6 @@ public interface IUserService {
     boolean updateUser(User user, HttpServletRequest request);
 
     //查询用户借书记录
-    List<BorrowingBooksVo> findAllBorrowingBooks(HttpServletRequest request);
 
     //用户还书
     boolean userReturnBook(int bookId, HttpServletRequest request);

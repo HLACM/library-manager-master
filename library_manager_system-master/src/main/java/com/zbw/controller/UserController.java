@@ -61,14 +61,14 @@ public class UserController {
      */
     @RequestMapping("/userBorrowBookRecord")
     public String userBorrowBookRecord(Model model, HttpServletRequest request) {
+        //不用分页，返回一个借书记录的列表，数据存进去
         ArrayList<BorrowingBooksVo> res = borrowingBooksRecordService.selectAllBorrowRecord(request);
         model.addAttribute("borrowingBooksList", res);
-
         return "user/borrowingBooksRecord";
     }
 
     /**
-     * 返回还书页面
+     * 返回归还书籍页面
      */
     @RequestMapping("/userReturnBooksPage")
     public String userReturnBooksPage() {
@@ -76,7 +76,7 @@ public class UserController {
     }
 
     /**
-     * 返回个人信息页面
+     * 搜索并保存用户个人信息并返回页面
      */
     @RequestMapping("/userMessagePage")
     public String userMessagePage(Model model, HttpServletRequest request) {
@@ -94,13 +94,7 @@ public class UserController {
         return "user/borrowingBooks";
     }
 
-    /**
-     * 返回用户首页
-     */
-    @RequestMapping("/userIndex")
-    public String userIndex() {
-        return "user/index";
-    }
+
 
     /**
      * @param user
@@ -142,13 +136,7 @@ public class UserController {
         return userService.userBorrowingBook(bookId, request);
     }
 
-    /**
-     * 返回管理员登陆界面
-     */
-    @RequestMapping("/adminLoginPage")
-    public String adminLoginPage() {
-        return "adminLogin";
-    }
+
 
     /**
      * 用户退出登陆
@@ -163,7 +151,7 @@ public class UserController {
     }
 
     /**
-     * 返回用户索书页面
+     * 返回用户查询书籍页面
      */
     @RequestMapping("/findBookPage")
     public String findBookPage() {
