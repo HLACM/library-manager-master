@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class AdminController {
@@ -72,7 +73,18 @@ public class AdminController {
      */
     @RequestMapping("/addCategoryPage")
     public String addCategoryPage(@RequestParam("pageNum") int pageNum, Model model) {
-        Page<BookCategory> page = bookCategoryService.selectBookCategoryByPageNum(pageNum);
+        Page<BookCategory> page=null;
+        //定义动态键
+        String key="addCategoryPage"+pageNum;
+        //先从Redis中查询数据，如果有数据则直接返回
+        page=(Page<BookCategory>)redisTemplate.opsForValue().get(key);
+        if(page!=null){
+            model.addAttribute("page", page);
+            return "admin/addCategory";
+        }
+        page = bookCategoryService.selectBookCategoryByPageNum(pageNum);
+        //将查询出来的数据存入redis中，key名就是方法的名字
+        redisTemplate.opsForValue().set(key,page,60, TimeUnit.MINUTES);
         //model.addAttribute用于封装前端页面返回需要的数据，在前端页面中，使用EL表达式"${}"获取Map中的数据
         model.addAttribute("page", page);
         return "admin/addCategory";
