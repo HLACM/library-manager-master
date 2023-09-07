@@ -10,6 +10,7 @@ import com.zbw.service.IUserService;
 import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,8 @@ public class AdminController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 管理员登陆功能，匹配失败继续待在登录页面，成功登录主页
