@@ -2,6 +2,7 @@ package com.zbw.utils.page;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  */
 
 @Data
-public class Page<T> {
+public class Page<T> implements Serializable {
     private List<T> list;//T类型的对象链表
     private int pageNum; //当前页码
     private int pageSize;//每页数量

@@ -2,8 +2,10 @@ package com.zbw.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Book {
+public class Book implements Serializable {
     private Integer bookId;
 
     private String bookName;
