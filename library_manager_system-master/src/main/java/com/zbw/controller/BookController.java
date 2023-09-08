@@ -1,13 +1,13 @@
 package com.zbw.controller;
 
-import com.zbw.domain.Book;
-import com.zbw.domain.BookCategory;
+import com.zbw.domain.*;
 import com.zbw.domain.Vo.BookVo;
 import com.zbw.service.IAdminService;
 import com.zbw.service.IBookCategoryService;
 import com.zbw.service.IBookService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class BookController {
@@ -26,9 +28,12 @@ public class BookController {
     @Autowired
     private IBookCategoryService bookCategoryService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
-     * 管理员&emsp;&emsp;录入新书
-     *
+     * 管理员录入新书
+     * 添加后删除掉旧缓存
      * @param book
      * @return
      */
@@ -38,6 +43,9 @@ public class BookController {
         //方法返回一个布尔值
         boolean res = adminService.addBook(book);
         if (res) {
+            //清理掉对应种类书籍的所有缓存数据
+            Set keys=redisTemplate.keys("showBooksResultPageByCategoryId"+"_"+book.getBookCategory()+"_*");
+            redisTemplate.delete(keys);
             return "true";
         }
         return "false";
@@ -45,15 +53,26 @@ public class BookController {
 
     /**
      * 返回管理员查询书籍结果页
-     *
+     * 使用Redis对数据进行缓存
      * @param pageNum
+     * @param bookCategory 为外部传入的CategoryId
      * @param model
      * @return
      */
     @RequestMapping("/showBooksResultPageByCategoryId")
     public String showBooksResultPageByCategoryId(@RequestParam("pageNum") int pageNum, @RequestParam("bookCategory") int bookCategory, Model model) {
-        //封装好查询出来的数据
-        Page<BookVo> page = bookService.findBooksByCategoryId(bookCategory, pageNum);
+        Page<BookVo> page=null;
+        //用categoryId动态获取键名,pageNum代表第几页，bookCategory代表是哪一类的书籍
+        String key="showBooksResultPageByCategoryId"+"_"+bookCategory+"_"+pageNum;
+        page=(Page<BookVo>)redisTemplate.opsForValue().get(key);
+        if (page!=null){
+            model.addAttribute("page", page);
+            model.addAttribute("bookCategory", bookCategory);
+            return "admin/showBooks";
+        }
+        //未查询到缓存则封装好查询出来的数据并存入Redis
+        page = bookService.findBooksByCategoryId(bookCategory, pageNum);
+        redisTemplate.opsForValue().set(key,page,30,TimeUnit.MINUTES);
         model.addAttribute("page", page);
         model.addAttribute("bookCategory", bookCategory);
         return "admin/showBooks";
@@ -74,7 +93,7 @@ public class BookController {
     }
 
     /**
-     * 查询所有书籍种类（新建类别页面中展示）
+     * 查询所有书籍种类（在录入新书的类别选择栏中显示所有类别）
      *
      * @return
      */
@@ -86,7 +105,7 @@ public class BookController {
 
     /**
      * 新建书籍种类
-     *
+     * 添加后删除掉旧缓存
      * @param bookCategory
      * @return
      */
@@ -95,6 +114,9 @@ public class BookController {
     public String addBookCategory(BookCategory bookCategory) {
         boolean b = adminService.addBookCategory(bookCategory);
         if (b) {
+            //清理掉所有该种类的缓存数据
+            Set keys=redisTemplate.keys("addCategoryPage_*");
+            redisTemplate.delete(keys);
             return "true";
         }
         return "false";
@@ -111,6 +133,9 @@ public class BookController {
     public String deleteBookCategoryById(@RequestParam("bookCategoryId") int bookCategoryId) {
         int res = bookCategoryService.deleteBookCategoryById(bookCategoryId);
         if (res > 0) {
+            //清理掉所有该种类的缓存数据
+            Set keys=redisTemplate.keys("addCategoryPage_*");
+            redisTemplate.delete(keys);
             return "true";
         }
         return "false";
