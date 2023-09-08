@@ -15,6 +15,7 @@
 
         body {
             /*页面背景图*/
+
             background: url("/images/BG.jpg") no-repeat;
             /*背景全覆盖*/
             background-size: cover;
@@ -99,20 +100,28 @@
 
 <script th:inline="javascript">
     layui.use(['layer', 'form'], function () {
+        // 加载layer和form模块
         let layer = layui.layer;
         let form = layui.form;
+
+        // 渲染表单
         form.render();
 
+        // 在页面加载完成时执行以下代码
         $(function () {
+            // 获取会话中的flag值
             let flag = [[${session.flag}]];
+
+            // 如果flag存在，显示错误消息
             if (flag) {
                 layer.msg("用户名或密码错误", {
-                    icon: 2,
-                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    icon: 2, // 提示框图标为红色叉叉
+                    time: 2000 // 2秒后自动关闭提示框（如果不配置，默认是3秒）
                 });
             }
         });
     });
+
 
 
     $("#sub_btn").click(function () {
@@ -121,16 +130,16 @@
 
         // 首先判断用户名是否为空
         if (user_judge) {
-            let password = $("#password").val();
+            let password = $("#password").val();//将页面中 id 为 "password" 的元素的值赋给变量 password。变量 password 将包含用户在密码输入框中输入的值。
             let pwd_judge = check(password);
 
             // 用户名不为空  , 判断密码是否为空
             if (pwd_judge) {
-                let role_id = $('input[name="role"]:checked').val();
+                let role_id = $('input[name="role"]:checked').val();//将选中的名为 "role" 的输入元素的值赋给变量 role_id。变量 role_id 将包含用户所选择的 "role" 输入元素的值。
 
                 // 如果role_id ==1 ,则是普通用户 , 直接提交表单
                 if (role_id == 1) {
-                    $("#my_form").submit();
+                    $("#my_form").submit();//通过代码方式触发名为 "my_form" 的表单的提交事件。这将导致表单数据被提交到服务器，触发相应的处理逻辑。
                 } else {
 
                     //如果是管理员 , 则将action 进行更改

@@ -9,6 +9,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
 
+    <!--th:include 属性接受两个参数: URL 和片段模板名称。-->
     <div th:include="common/user_header :: header"></div>
 
     <div class="layui-side layui-bg-black">
@@ -36,6 +37,7 @@
         </div>
     </div>
 
+    <!--引用layui框架提供的轮播图样式-->
     <div class="layui-body layui-container">
         <div class="layui-carousel layui-container" id="index" style="margin-top: 40px;">
             <div carousel-item>
@@ -48,24 +50,28 @@
         </div>
     </div>
 
+    <!--引用自定义的thymeleaf碎片-->
     <div th:include="common/footer :: footer"></div>
 
 </div>
 
+<!--引入jquery和layui框架的相关文件-->
 <script src="/scripts/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
+
+
 <script>
 
-    layui.use(['carousel', 'element'], function () {
+    layui.use(['carousel', 'element'], function () {//这是layui框架的加载模块的语法，用于异步加载并使用carousel模块和element模块。
         let carousel = layui.carousel;
         let element = layui.element;
         //建造实例
-        carousel.render({
+        carousel.render({//这是通过carousel模块的render方法来创建并渲染图片轮播效果的实例。
             elem: '#index'
             , width: '900' //设置容器宽度
             , height: '550px' //设置容器高度
             // , full:'true' //是否全屏轮播,默认false
-            // , arrow: 'always' //始终显示箭头和点击按钮
+            //, arrow: 'always' //始终显示箭头和点击按钮
             // ,anim: 'updown' //切换动画方式，可从各个方向滚动
         });
     });
