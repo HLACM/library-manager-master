@@ -75,6 +75,7 @@
                     <label class="layui-form-label">名字</label>
 
                     <div class="layui-input-block">
+                        <!-- th:value设置输入框内的值，将当前用户名放到输入框内               -->
                         <input type="text" name="userName" th:value="${session.user.getUserName()}" id="name"
                                class="layui-input">
                     </div>
@@ -84,6 +85,7 @@
                     <label class="layui-form-label">邮箱</label>
 
                     <div class="layui-input-block">
+                        <!-- th:value设置输入框内的值，将当前用户邮箱放到输入框内               -->
                         <input type="text" name="UserEmail" th:value="${session.user.getUserEmail()}" id="email"
                                class="layui-input">
                     </div>
@@ -93,6 +95,7 @@
                     <label class="layui-form-label">密码</label>
 
                     <div class="layui-input-block">
+                        <!-- th:value设置输入框内的值，将当前用户密码放到输入框内               -->
                         <input type="text" name="userPwd" id="password" class="layui-input"
                                th:value="${session.user.getUserPwd()}">
                     </div>
