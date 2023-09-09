@@ -46,6 +46,7 @@
         </div>
 
         <div>
+<!--在输入框中禁用了自动完成功能（autocomplete="off"）。此外，应用Layui框架的样式类autofocus，使输入框在页面加载时自动获取焦点-->
             <input class=" layui-input-block" placeholder="请输入书籍编号" autocomplete="off" autofocus
                    id="bookId" type="text" name="bookId">
 
@@ -56,6 +57,7 @@
 
 
     <div th:include="common/footer :: footer"></div>
+
 </div>
 
 <script src="/scripts/jquery.min.js"></script>

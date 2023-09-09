@@ -32,7 +32,12 @@ function updateUser() {
         type: 'post',
         // url地址
         url: '/updateUser',
-        // 发送给服务器的数据，形式为：userName=user1&UserEmail=7056547%40qq.com&userPwd=123456
+        /*
+            发送给服务器的数据
+            serialize方法将表单数据转换为可以发送给服务器的格式
+            形式为：userName=user1&UserEmail=7056547%40qq.com&userPwd=123456
+            其中userName是标签的name属性，user1是标签的value属性
+         */
         data: $('#updateUserForm').serialize(),
         // 请求响应成功
         success: function (data) {
