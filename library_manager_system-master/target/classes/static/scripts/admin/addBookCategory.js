@@ -2,11 +2,11 @@ layui.use(['form','element','layer'], function () {
     let form = layui.form;
     let element = layui.element();
     let layer = layui.layer;
-    // 表单监听事件，监听提交按钮
-
 });
 
 $(document).ready(function () {
+
+    // 按钮监听事件，提交按钮
     $("#btn_addBookCategory").click (function () {
         alert(1);
         // 点击提交按钮后执行
@@ -14,6 +14,7 @@ $(document).ready(function () {
         // 阻止表单跳转
         return false;
     });
+
     //检查能否再点击上一页，下一页
     /*
         html方法，返回html内容
@@ -97,18 +98,23 @@ function addBookCategory() {
         data: $("#addBookCategoryForm").serialize(),
         // 服务器响应成功
         success: function (data) {
-
+            // 服务端判断结果为成功
             if (data.toString() == "true") {
+                // 弹出添加成功信息
                 layer.msg("添加成功!", {icon: 1, time: 1500});
 
                 // 1500ms后 重新加载页面 , 将更改后的内容重新加载到页面
                 setTimeout(function () {
                     location.reload();
                 }, 1500);
-            } else {
+            }
+            // 判断不成功
+            else {
+                // 弹出添加失败框
                 layer.msg("添加失败!", {icon: 2, time: 1500});
             }
         },
+        // 服务端响应失败
         error: function (data) {
             layer.msg("添加失败!", {icon: 2, time: 1500});
         }
@@ -118,14 +124,21 @@ function addBookCategory() {
 //ajax删除种类
 function deleteBookCategoryById(bookCategoryId) {
     $.ajax({
+        // 同步请求
         async: false,
+        // 请求方式
         type: "post",
+        // url地址
         url: "/deleteCategory",
+        // 从服务端接收的数据类型
         dataType: "json",
+        // 传输的数据
         data: {bookCategoryId: bookCategoryId},
+        // 服务端响应成功
         success: function (data) {
 
         },
+        // 服务端响应失败
         error: function (data) {
             alert(data.result);
         }

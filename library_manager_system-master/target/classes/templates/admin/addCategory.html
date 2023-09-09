@@ -85,11 +85,14 @@
                         <th>操作</th>
                     </tr>
                     </thead>
-
+                    <!-- th动态遍历种类                   -->
                     <tr th:each="bookCategory:${page.getList()}">
+                        <!--  获取种类的id                      -->
                         <td><label th:text="${bookCategory.getCategoryId()}"></label></td>
+                        <!--  获取种类的名称                      -->
                         <td><label th:text="${bookCategory.getCategoryName()}"></label></td>
                         <td>
+                            <!--  value的值设置为种类id，方便js操作                                  -->
                             <button class="layui-btn layui-btn-sm layui-btn-danger btn_deleteCategory"
                                     th:value="${bookCategory.getCategoryId()}">删除
                             </button>
@@ -99,16 +102,18 @@
                     <tr>
                         <td colspan="3">
                             <div style="margin: auto; width: 160px;">
-
+                                <!--  超链接道上一页，改变传入的页码参数实现跳转                                          -->
                                 <a id="prePage" href="/addCategoryPage?pageNum=1"
                                    th:href="@{/addCategoryPage(pageNum=${page.getPageNum()-1})}">
                                     <button class="layui-btn layui-btn-sm">上一页</button>
                                 </a>
+                                <!--   获取当前页码                             -->
                                 <label id="lab1" th:text="${page.getPageNum()}"></label>
 
                                 <span>/</span>
-
+                                <!--   获取最大页码                             -->
                                 <label id="lab2" th:text="${page.getPageCount()}"></label>
+                                <!--  超链接道上一页，改变传入的页码参数实现跳转                                          -->
                                 <a id="nextPage" href="/addCategoryPage?pageNum=2"
                                    th:href="@{/addCategoryPage(pageNum=${page.getPageNum()+1})}">
                                     <button class="layui-btn layui-btn-sm">下一页</button>
