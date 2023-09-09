@@ -37,12 +37,6 @@ public class UserTest {
 
 
     @Test
-    public void updateUserTest(){
-        User user=new User();
-
-    }
-
-    @Test
     public void selectByPage(){
         List<User> users=userMapper.selectByPageNum(0,5);
         if(null!=users){
