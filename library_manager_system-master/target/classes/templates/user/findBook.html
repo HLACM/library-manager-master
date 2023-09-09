@@ -45,13 +45,18 @@
                 <h1 style="text-align:left">查询书籍</h1>
                 <hr class="layui-bg-blue">
 
+                <!--在提交表单时，表单数据将被发送到/findBookByBookPartInfo路径页面进行处理。也就是把数据传送到BookController控制层经常进一步处理-->
                 <form class="layui-form" action="/findBookByBookPartInfo" id="findBookByNameForm">
 
+                <!--为了使输入框在页面加载时自动获取焦点，在输入框中添加autofocus属性。
+                为了禁止浏览器自动完成功能，在输入框中禁用了自动完成功能（autocomplete="off"）。
+                输入框的类型设置为文本（type="text"）。
+                为了验证输入框不能为空，使用Layui框架的lay-verify属性，并设置值为"required"。-->
                     <div class="layui-form-item">
                         <input placeholder="请输入书名信息" class="layui-input" autofocus autocomplete="off" type="text"
                                name="bookPartInfo" lay-verify="required">
                     </div>
-
+                <!--使用Layui框架的lay-submit属性来启用表单的提交功能。-->
                     <input class="layui-btn" type="submit" lay-submit="" value="查询">
                 </form>
             </div>
@@ -74,6 +79,7 @@
                     </tr>
                     </thead>
 
+                    <!--将查询到的数据从后端【BookController.java】放到数据模型中传送到前端使用thymeleaf引擎模板进行遍历渲染-->
                     <tr th:each="book:${bookList}">
                         <td><label th:text="${book.getBookId()}"></label></td>
                         <td><label th:text="${book.getBookName()}"></label></td>
@@ -96,6 +102,7 @@
 <script src="/scripts/jquery.min.js"></script>
 <script src="/layui/layui.js"></script>
 
+<!--layui框架的加载模块的语法，用于异步加载并使用element\form模块。-->
 <script>
     layui.use(['form', 'element'], function () {
         let form = layui.form;
