@@ -11,7 +11,7 @@ spring:
   datasource:
     druid:
       driverClassName: com.mysql.cj.jdbc.Driver
-      password: 123456
+      password: LtH13922069523
       url: jdbc:mysql://localhost:3306/libraryManagerSystem?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
   mvc:
