@@ -42,7 +42,7 @@ public class BookController {
     @ResponseBody
     public String addBook(Book book) {
         //方法返回一个布尔值
-        boolean res = adminService.addBook(book);
+        boolean res = bookService.save(book);
         if (res) {
             //清理掉对应种类书籍的所有缓存数据
             Set keys=redisTemplate.keys("showBooksResultPageByCategoryId"+"_"+book.getBookCategory()+"_*");
@@ -101,7 +101,7 @@ public class BookController {
     @RequestMapping("/findAllBookCategory")
     @ResponseBody
     public List<BookCategory> findAllBookCategory() {
-        return adminService.getBookCategories();
+        return bookCategoryService.list();
     }
 
     /**
@@ -113,7 +113,7 @@ public class BookController {
     @RequestMapping("/addBookCategory")
     @ResponseBody
     public String addBookCategory(BookCategory bookCategory) {
-        boolean b = adminService.addBookCategory(bookCategory);
+        boolean b = bookCategoryService.save(bookCategory);
         if (b) {
             //清理掉所有该种类的缓存数据
             Set keys=redisTemplate.keys("addCategoryPage_*");

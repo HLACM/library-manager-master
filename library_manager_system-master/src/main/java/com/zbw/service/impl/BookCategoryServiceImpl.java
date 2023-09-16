@@ -1,6 +1,9 @@
 package com.zbw.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zbw.domain.Admin;
 import com.zbw.domain.BookCategory;
+import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookCategoryMapper;
 import com.zbw.service.IBookCategoryService;
 import com.zbw.utils.page.Page;
@@ -11,7 +14,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class BookCategoryServiceImpl implements IBookCategoryService {
+public class BookCategoryServiceImpl extends ServiceImpl<BookCategoryMapper, BookCategory> implements IBookCategoryService {
+
+    @Autowired
+    private IBookCategoryService bookCategoryService;
 
     @Autowired
     private BookCategoryMapper bookCategoryMapper;

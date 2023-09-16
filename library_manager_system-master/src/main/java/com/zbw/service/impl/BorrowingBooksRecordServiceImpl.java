@@ -1,9 +1,12 @@
 package com.zbw.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zbw.domain.Admin;
 import com.zbw.domain.Book;
 import com.zbw.domain.BorrowingBooks;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
+import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
 import com.zbw.mapper.UserMapper;
@@ -18,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordService {
+public class BorrowingBooksRecordServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements IBorrowingBooksRecordService {
     @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
 
