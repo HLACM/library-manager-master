@@ -23,17 +23,7 @@ public class UserTest {
     private UserMapper userMapper;
     @Resource
     private BorrowingBooksService borrowingBooksRecordService;
-    @Test
-    public void findUsersByName(){
-        List<User> users=userService.findUserByUserName("yxc");
-        if(null!=users){
-            for(User u:users){
-                System.out.println(u.getUserName());
-            }
-        }else{
-            System.out.println("null");
-        }
-    }
+
 
 
     @Test
@@ -46,11 +36,6 @@ public class UserTest {
         }
     }
 
-    @Test
-    public void tsetSelcetCount(){
-        int n=userMapper.selectUserCount();
-        System.out.println(n);
-    }
 
     @Test
     public void testSelectAllBorrowingBooksByPageNum(){

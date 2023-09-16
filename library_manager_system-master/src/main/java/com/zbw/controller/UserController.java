@@ -5,6 +5,7 @@ import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.service.BorrowingBooksService;
 import com.zbw.service.UserService;
+import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,8 +27,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private BorrowingBooksService borrowingBooksRecordService;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -57,31 +56,6 @@ public class UserController {
 
 
 
-    /**
-     * 返回用户借书记录页面
-     * 使用Redis缓存技术
-     * @param model
-     * @param request
-     * @return
-     */
-    @RequestMapping("/userBorrowBookRecord")
-    public String userBorrowBookRecord(Model model, HttpServletRequest request) {
-        ArrayList<BorrowingBooksVo> res=null;
-        //获取到user对象，并将userId提取出来对Key进行动态命名
-        User user = (User) request.getSession().getAttribute("user");
-        String key="userBorrowBookRecord"+"_"+user.getUserId();
-        res=(ArrayList<BorrowingBooksVo>)redisTemplate.opsForValue().get(key);
-        if (res!=null){
-            model.addAttribute("borrowingBooksList", res);
-            return "user/borrowingBooksRecord";
-        }
-        //不用分页，返回一个借书记录的列表，数据存进去，未查询到缓存则封装好查询出来的数据并存入Redis
-        res = borrowingBooksRecordService.selectAllBorrowRecord(request);
-        redisTemplate.opsForValue().set(key,res,30, TimeUnit.MINUTES);
-
-        model.addAttribute("borrowingBooksList", res);
-        return "user/borrowingBooksRecord";
-    }
 
     /**
      * 返回归还书籍页面
@@ -97,7 +71,7 @@ public class UserController {
     @RequestMapping("/userMessagePage")
     public String userMessagePage(Model model, HttpServletRequest request) {
         User session_user = (User) request.getSession().getAttribute("user");
-        User user = userService.findUserById(session_user.getUserId());
+        User user = userService.getById(session_user.getUserId());
         model.addAttribute("message_user", user);
         return "user/userMessage";
     }
@@ -110,6 +84,28 @@ public class UserController {
         return "user/borrowingBooks";
     }
 
+
+    /**
+     * 返回查询用户页面，和上面的代码差不多
+     * 使用Redis缓存技术
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping("/showUsersPage")
+    public String showUsersPage(Model model, @RequestParam("pageNum") int pageNum) {
+        Page<User> page=null;
+        String key="showUsersPage"+"_"+pageNum;
+        page=(Page<User>)redisTemplate.opsForValue().get(key);
+        if (page!=null){
+            model.addAttribute("page", page);
+            return "admin/showUsers";
+        }
+        page = userService.findUserByPage(pageNum);
+        redisTemplate.opsForValue().set(key,page,30, TimeUnit.MINUTES);
+        model.addAttribute("page", page);
+        return "admin/showUsers";
+    }
 
     /**
      * 更新用户信息
@@ -191,8 +187,8 @@ public class UserController {
     @RequestMapping("/deleteUser")
     @ResponseBody
     public String deleteUserByUserId(@RequestParam("userId") int userId) {
-        int res = userService.deleteUserById(userId);
-        if (res > 0) {
+        boolean res = userService.removeById(userId);
+        if (res) {
             return "true";
         }
         return "false";
@@ -207,8 +203,8 @@ public class UserController {
     @RequestMapping("/addUser")
     @ResponseBody
     public String addUser(User user) {
-        int res = userService.insertUser(user);
-        if (res > 0) {
+        boolean res = userService.save(user);
+        if (res) {
             //清理掉所有用户的缓存数据
             Set keys=redisTemplate.keys("showUsersPage_*");
             redisTemplate.delete(keys);

@@ -20,12 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 @Controller
 public class BookController {
-    @Autowired
-    private AdminService adminService;
+
     @Autowired
     private BookService bookService;
-    @Autowired
-    private BookCategoryService bookCategoryService;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -91,53 +88,7 @@ public class BookController {
         return "user/findBook";
     }
 
-    /**
-     * 查询所有书籍种类（在录入新书的类别选择栏中显示所有类别）
-     *
-     * @return
-     */
-    @RequestMapping("/findAllBookCategory")
-    @ResponseBody
-    public List<BookCategory> findAllBookCategory() {
-        return bookCategoryService.list();
-    }
 
-    /**
-     * 新建书籍种类
-     * 添加后删除掉旧缓存
-     * @param bookCategory
-     * @return
-     */
-    @RequestMapping("/addBookCategory")
-    @ResponseBody
-    public String addBookCategory(BookCategory bookCategory) {
-        boolean b = bookCategoryService.save(bookCategory);
-        if (b) {
-            //清理掉所有该种类的缓存数据
-            Set keys=redisTemplate.keys("addCategoryPage_*");
-            redisTemplate.delete(keys);
-            return "true";
-        }
-        return "false";
-    }
 
-    /**
-     * 根据书籍种类id删除种类
-     *
-     * @param bookCategoryId
-     * @return
-     */
-    @RequestMapping("/deleteCategory")
-    @ResponseBody
-    public String deleteBookCategoryById(@RequestParam("bookCategoryId") int bookCategoryId) {
-        boolean res = bookCategoryService.removeById(bookCategoryId);
-        if (res) {
-            //清理掉所有该种类的缓存数据
-            Set keys=redisTemplate.keys("addCategoryPage_*");
-            redisTemplate.delete(keys);
-            return "true";
-        }
-        return "false";
-    }
 
 }

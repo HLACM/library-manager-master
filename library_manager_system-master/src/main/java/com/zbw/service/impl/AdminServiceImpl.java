@@ -13,9 +13,6 @@ import java.util.List;
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper,Admin> implements AdminService {
 
-    @Autowired
-    private AdminService adminService;
-
 
     /**
      * 判断是否为正确的账户，是则返回对应admin对象，否则返回null
@@ -52,7 +49,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper,Admin> implements 
         Admin sessionAdmin = (Admin) request.getSession().getAttribute("admin");
         admin.setAdminId(sessionAdmin.getAdminId());
         //按主键id进行数据的更新
-        boolean n = adminService.updateById(admin);
+        boolean n = this.updateById(admin);
         if (n) {
             //修改成功，更新session对象
             Admin newAdmin = query().eq("admin_id", admin.getAdminId()).one();

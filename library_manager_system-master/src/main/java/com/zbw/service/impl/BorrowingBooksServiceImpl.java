@@ -21,15 +21,12 @@ import java.util.*;
 
 @Service
 public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements BorrowingBooksService {
-    @Autowired
-    private BorrowingBooksMapper borrowingBooksMapper;
 
     @Autowired
     private BookService bookService;
 
     @Autowired
     private UserService userService;
-
 
     /**
      * 查询对应的借书信息
@@ -40,7 +37,7 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
     public Page<BorrowingBooksVo> selectAllByPage(int pageNum) {
 
         //查询10条数据
-        List<BorrowingBooks> list = borrowingBooksMapper.selectAllByPage((pageNum - 1) * 10, 10);
+        List<BorrowingBooks> list = getBaseMapper().selectAllByPage((pageNum - 1) * 10, 10);
         if (null == list) {
             return null;
         }
@@ -97,15 +94,14 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
             return null;
         }
         //数据库查询用户借书记录
-        List<BorrowingBooks> list = borrowingBooksMapper.selectAllBorrowRecord(user.getUserId());
+        List<BorrowingBooks> list = this.query().eq("user_id", user.getUserId()).list();
         if (null == list) {
             return null;
         }
         //创建BorrowingBooksVo类型的集合，并为它注入属性
         ArrayList<BorrowingBooksVo> borrowingBooksVos = new ArrayList<>();
-
         for (BorrowingBooks b : list) {
-            Book book = bookMapper.selectByPrimaryKey(b.getBookId());
+            Book book = bookService.getById(b.getBookId());
             BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
 
             borrowingBooksVo.setBook(book);

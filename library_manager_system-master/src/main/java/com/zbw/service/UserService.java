@@ -9,10 +9,6 @@ import java.util.List;
 
 public interface UserService extends IService<User> {
 
-    // 查询用户名 为"userName"的所有用户
-    List<User> findUserByUserName(String userName);
-
-
     //用户登录
     User userLogin(String userName, String password);
 
@@ -27,15 +23,7 @@ public interface UserService extends IService<User> {
     //用户借书 
     boolean userBorrowingBook(int bookId, HttpServletRequest request);
 
-    //通过id查找用户
-    User findUserById(int id);
-
     //分页查询用户
     Page<User> findUserByPage(int pageNum);
 
-    //添加用户
-    int insertUser(User user);
-
-    //根据用户id删除用户
-    int deleteUserById(int userId);
 }

@@ -21,8 +21,6 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     @Autowired
     private BorrowingBooksService borrowingBooksService;
 
-    @Autowired
-    private BookMapper bookMapper;
 
     /**
      * 根据书名查找对应书籍
@@ -66,7 +64,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     @Override
     public Page<BookVo> findBooksByCategoryId(int categoryId, int pageNum) {
         //先根据分类id查询基础数据
-        List<Book> books = bookMapper.selectByCategoryId(categoryId, (pageNum - 1) * 10, 10);
+        List<Book> books = getBaseMapper().selectByCategoryId(categoryId, (pageNum - 1) * 10, 10);
         List<BookVo> bookVos = new LinkedList<>();
         Page<BookVo> page = new Page<>();
         if (null == books) {

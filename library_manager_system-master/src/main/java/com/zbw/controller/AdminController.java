@@ -26,13 +26,6 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
-    @Autowired
-    private BookCategoryService bookCategoryService;
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     /**
      * 管理员登陆功能，匹配失败继续待在登录页面，成功登录主页
@@ -67,54 +60,9 @@ public class AdminController {
         return "admin/addBook";
     }
 
-    /**
-     * 点击新建类别返回类别页面，默认展示第一页
-     * 使用Redis缓存技术，先查询redis中是否有数据，有则返回redis中数据，没有则存入数据入Redis中
-     * @param pageNum
-     * @param model
-     * @return
-     */
-    @RequestMapping("/addCategoryPage")
-    public String addCategoryPage(@RequestParam("pageNum") int pageNum, Model model) {
-        Page<BookCategory> page=null;
-        //定义动态键
-        String key="addCategoryPage"+"_"+pageNum;
-        //先从Redis中查询数据，如果有数据则直接返回
-        page=(Page<BookCategory>)redisTemplate.opsForValue().get(key);
-        if(page!=null){
-            model.addAttribute("page", page);
-            return "admin/addCategory";
-        }
-        page = bookCategoryService.selectBookCategoryByPageNum(pageNum);
-        //将查询出来的数据存入redis中，key名就是方法的名字
-        redisTemplate.opsForValue().set(key,page,30, TimeUnit.MINUTES);
-        //model.addAttribute用于封装前端页面返回需要的数据，在前端页面中，使用EL表达式"${}"获取Map中的数据
-        model.addAttribute("page", page);
-        return "admin/addCategory";
-    }
 
 
-    /**
-     * 返回查询用户页面，和上面的代码差不多
-     * 使用Redis缓存技术
-     * @param model
-     * @param pageNum
-     * @return
-     */
-    @RequestMapping("/showUsersPage")
-    public String showUsersPage(Model model, @RequestParam("pageNum") int pageNum) {
-        Page<User> page=null;
-        String key="showUsersPage"+"_"+pageNum;
-        page=(Page<User>)redisTemplate.opsForValue().get(key);
-        if (page!=null){
-            model.addAttribute("page", page);
-            return "admin/showUsers";
-        }
-        page = userService.findUserByPage(pageNum);
-        redisTemplate.opsForValue().set(key,page,30, TimeUnit.MINUTES);
-        model.addAttribute("page", page);
-        return "admin/showUsers";
-    }
+
 
     /**
      * 返回&emsp;&emsp;查询书籍页面。和上面不同，未查询书籍前先不显示数据，把页码和页面总数都设置为1

@@ -32,19 +32,8 @@ public class BookCategoryMapperTest {
         }
     }
 
-    @Test
-    public void testSelectAllCount(){
-        int n=bookCategoryMapper.selectAllCount();
-        System.out.println(n);
-    }
 
 
-    @Test
-    public void testAddBookCategory(){
-        BookCategory bookCategory=new BookCategory();
-        bookCategory.setCategoryId(99);
-        bookCategory.setCategoryName("xxx");
-        System.out.println(adminService.addBookCategory(bookCategory));
 
-    }
+
 }
