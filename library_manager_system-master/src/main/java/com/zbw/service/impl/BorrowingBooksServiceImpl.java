@@ -1,5 +1,6 @@
 package com.zbw.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zbw.domain.Book;
 import com.zbw.domain.BorrowingBooks;
 import com.zbw.domain.User;
@@ -7,7 +8,9 @@ import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
 import com.zbw.mapper.UserMapper;
-import com.zbw.service.IBorrowingBooksRecordService;
+import com.zbw.service.BookService;
+import com.zbw.service.BorrowingBooksService;
+import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordService {
-    @Autowired
-    private BorrowingBooksMapper borrowingBooksMapper;
-
-    @Autowired
-    private BookMapper bookMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
+public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements BorrowingBooksService {
 
     /**
      * 查询对应的借书信息
@@ -36,21 +30,21 @@ public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordSer
      */
     @Override
     public Page<BorrowingBooksVo> selectAllByPage(int pageNum) {
-
         //查询10条数据
-        List<BorrowingBooks> list = borrowingBooksMapper.selectAllByPage((pageNum - 1) * 10, 10);
+        List<BorrowingBooks> list = getBaseMapper().selectAllByPage((pageNum - 1) * 10, 10);
         if (null == list) {
             return null;
         }
         Page<BorrowingBooksVo> page = new Page<BorrowingBooksVo>();
         List<BorrowingBooksVo> borrowingBooksVos = new LinkedList<>();
         for (BorrowingBooks b : list) {
-            User user = userMapper.selectByPrimaryKey(b.getUserId());
-            Book book = bookMapper.selectByPrimaryKey(b.getBookId());
+            User user = getBaseMapper().selectUserById(b.getUserId());
+            Book book = getBaseMapper().selectBookById(b.getBookId());
             BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
 
             borrowingBooksVo.setUser(user);
             borrowingBooksVo.setBook(book);
+
             //日期转换
             Date date1 = b.getDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -67,13 +61,15 @@ public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordSer
             borrowingBooksVo.setDateOfReturn(dateOfReturn);
             borrowingBooksVos.add(borrowingBooksVo);
         }
+
+
+
         page.setList(borrowingBooksVos);
         page.setPageNum(pageNum);
         page.setPageSize(10);
 
         //查找总页数
-        int recordCount = 0;//总和记录
-        recordCount = borrowingBooksMapper.selectAll();
+        int recordCount = this.count();//总和记录
         //计算页数
         int pageCount = recordCount / 10;
         if (recordCount % 10 != 0) {
@@ -96,15 +92,14 @@ public class BorrowingBooksRecordServiceImpl implements IBorrowingBooksRecordSer
             return null;
         }
         //数据库查询用户借书记录
-        List<BorrowingBooks> list = borrowingBooksMapper.selectAllBorrowRecord(user.getUserId());
+        List<BorrowingBooks> list = this.query().eq("user_id", user.getUserId()).list();
         if (null == list) {
             return null;
         }
         //创建BorrowingBooksVo类型的集合，并为它注入属性
         ArrayList<BorrowingBooksVo> borrowingBooksVos = new ArrayList<>();
-
         for (BorrowingBooks b : list) {
-            Book book = bookMapper.selectByPrimaryKey(b.getBookId());
+            Book book = getBaseMapper().selectBookById(b.getBookId());
             BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
 
             borrowingBooksVo.setBook(book);

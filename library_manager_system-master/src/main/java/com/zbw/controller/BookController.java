@@ -1,13 +1,11 @@
 package com.zbw.controller;
 
-import com.zbw.domain.Book;
-import com.zbw.domain.BookCategory;
+import com.zbw.domain.*;
 import com.zbw.domain.Vo.BookVo;
-import com.zbw.service.IAdminService;
-import com.zbw.service.IBookCategoryService;
-import com.zbw.service.IBookService;
+import com.zbw.service.BookService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,19 +14,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class BookController {
-    @Autowired
-    private IAdminService adminService;
-    @Autowired
-    private IBookService bookService;
-    @Autowired
-    private IBookCategoryService bookCategoryService;
+
+    @Resource
+    private BookService bookService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     /**
-     * 管理员&emsp;&emsp;录入新书
-     *
+     * 管理员录入新书
+     * 添加书籍后删除掉旧缓存，注意先后顺序，应对多线程并发问题
      * @param book
      * @return
      */
@@ -36,8 +36,11 @@ public class BookController {
     @ResponseBody
     public String addBook(Book book) {
         //方法返回一个布尔值
-        boolean res = adminService.addBook(book);
+        boolean res = bookService.save(book);
         if (res) {
+            //清理掉对应种类书籍的所有缓存数据
+            Set keys=redisTemplate.keys("showBooksResultPageByCategoryId"+"_"+book.getBookCategory()+"_*");
+            redisTemplate.delete(keys);
             return "true";
         }
         return "false";
@@ -45,15 +48,26 @@ public class BookController {
 
     /**
      * 返回管理员查询书籍结果页
-     *
+     * 使用Redis对数据进行缓存
      * @param pageNum
+     * @param bookCategory 为外部传入的CategoryId
      * @param model
      * @return
      */
     @RequestMapping("/showBooksResultPageByCategoryId")
     public String showBooksResultPageByCategoryId(@RequestParam("pageNum") int pageNum, @RequestParam("bookCategory") int bookCategory, Model model) {
-        //封装好查询出来的数据
-        Page<BookVo> page = bookService.findBooksByCategoryId(bookCategory, pageNum);
+        Page<BookVo> page=null;
+        //用categoryId动态获取键名,pageNum代表第几页，bookCategory代表是哪一类的书籍
+        String key="showBooksResultPageByCategoryId"+"_"+bookCategory+"_"+pageNum;
+        page=(Page<BookVo>)redisTemplate.opsForValue().get(key);
+        if (page!=null){
+            model.addAttribute("page", page);
+            model.addAttribute("bookCategory", bookCategory);
+            return "admin/showBooks";
+        }
+        //未查询到缓存则封装好查询出来的数据并存入Redis
+        page = bookService.findBooksByCategoryId(bookCategory, pageNum);
+        redisTemplate.opsForValue().set(key,page,30,TimeUnit.MINUTES);
         model.addAttribute("page", page);
         model.addAttribute("bookCategory", bookCategory);
         return "admin/showBooks";
@@ -67,53 +81,13 @@ public class BookController {
      */
     @RequestMapping("/findBookByBookPartInfo")
     public String findBooksResultPage(@RequestParam("bookPartInfo") String bookPartInfo, Model model) {
-        //参数为对应书籍的名字，通过名字查找对应的数据。由于展示的是一条数据所以不需要分页
+        //参数为对应书籍的名字的一部分，通过部分名字查找对应的数据。由于展示的是一条数据所以不需要分页
         List<BookVo> bookVos = bookService.selectBooksByBookPartInfo(bookPartInfo);
         model.addAttribute("bookList", bookVos);
         return "user/findBook";
     }
 
-    /**
-     * 查询所有书籍种类（新建类别页面中展示）
-     *
-     * @return
-     */
-    @RequestMapping("/findAllBookCategory")
-    @ResponseBody
-    public List<BookCategory> findAllBookCategory() {
-        return adminService.getBookCategories();
-    }
 
-    /**
-     * 新建书籍种类
-     *
-     * @param bookCategory
-     * @return
-     */
-    @RequestMapping("/addBookCategory")
-    @ResponseBody
-    public String addBookCategory(BookCategory bookCategory) {
-        boolean b = adminService.addBookCategory(bookCategory);
-        if (b) {
-            return "true";
-        }
-        return "false";
-    }
 
-    /**
-     * 根据书籍种类id删除种类
-     *
-     * @param bookCategoryId
-     * @return
-     */
-    @RequestMapping("/deleteCategory")
-    @ResponseBody
-    public String deleteBookCategoryById(@RequestParam("bookCategoryId") int bookCategoryId) {
-        int res = bookCategoryService.deleteBookCategoryById(bookCategoryId);
-        if (res > 0) {
-            return "true";
-        }
-        return "false";
-    }
 
 }

@@ -1,35 +1,25 @@
 package com.zbw.controller;
 
 import com.zbw.domain.Admin;
-import com.zbw.domain.BookCategory;
-import com.zbw.domain.User;
 import com.zbw.domain.Vo.BookVo;
-import com.zbw.service.IAdminService;
-import com.zbw.service.IBookCategoryService;
-import com.zbw.service.IUserService;
+import com.zbw.service.AdminService;
 import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+
 @Controller
 public class AdminController {
 
-    @Autowired
-    private IAdminService adminService;
-    @Autowired
-    private IBookCategoryService bookCategoryService;
-    @Autowired
-    private IUserService userService;
-
+    @Resource
+    private AdminService adminService;
 
     /**
      * 管理员登陆功能，匹配失败继续待在登录页面，成功登录主页
@@ -64,30 +54,14 @@ public class AdminController {
         return "admin/addBook";
     }
 
-    /**
-     * 点击添加类别返回类别页面，默认展示第一页
-     */
-    @RequestMapping("/addCategoryPage")
-    public String addCategoryPage(@RequestParam("pageNum") int pageNum, Model model) {
-        Page<BookCategory> page = bookCategoryService.selectBookCategoryByPageNum(pageNum);
-        //model.addAttribute用于封装前端页面返回需要的数据，在前端页面中，使用EL表达式"${}"获取Map中的数据
-        model.addAttribute("page", page);
-        return "admin/addCategory";
-    }
 
 
-    /**
-     * 返回查询用户页面，，和上面的代码差不多
-     */
-    @RequestMapping("/showUsersPage")
-    public String showUsersPage(Model model, @RequestParam("pageNum") int pageNum) {
-        Page<User> page = userService.findUserByPage(pageNum);
-        model.addAttribute("page", page);
-        return "admin/showUsers";
-    }
+
 
     /**
      * 返回&emsp;&emsp;查询书籍页面。和上面不同，未查询书籍前先不显示数据，把页码和页面总数都设置为1
+     * @param model
+     * @return
      */
     @RequestMapping("/showBooksPage")
     public String showBooksPage(Model model) {

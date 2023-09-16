@@ -15,15 +15,6 @@ public class DemoApplicationTests {
 
     @Resource
     private UserMapper userMapper;
-    @Test
-    public void contextLoads() {
 
-        User user=userMapper.selectByPrimaryKey(1);
-        if(null!=user){
-            System.out.println(user.getUserName());
-        }else{
-            System.out.println("null");
-        }
-    }
 
 }

@@ -1,9 +1,12 @@
 package com.zbw;
 
+import com.zbw.domain.Admin;
 import com.zbw.domain.BookCategory;
 import com.zbw.mapper.BookCategoryMapper;
+import com.zbw.service.AdminService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -16,6 +19,19 @@ public class BookCategoryMapperTest {
 
     @Resource
     private BookCategoryMapper bookCategoryMapper;
+
+    @Resource
+    private AdminService adminService;
+
+    @Test
+    public void login(){
+        Admin admin = adminService.adminLogin("admin", "123456");
+        System.out.println(admin.toString());
+    }
+
+
+
+
     @Test
     public void tesrSelectByPageNum(){
 
@@ -27,9 +43,8 @@ public class BookCategoryMapperTest {
         }
     }
 
-    @Test
-    public void testSelectAllCount(){
-        int n=bookCategoryMapper.selectAllCount();
-        System.out.println(n);
-    }
+
+
+
+
 }

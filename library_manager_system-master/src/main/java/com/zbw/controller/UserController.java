@@ -2,11 +2,11 @@ package com.zbw.controller;
 
 
 import com.zbw.domain.User;
-import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.service.IBorrowingBooksRecordService;
-import com.zbw.service.IUserService;
+import com.zbw.service.UserService;
+import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,18 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class UserController {
 
-    @Autowired
-    private IUserService userService;
+    @Resource
+    private UserService userService;
 
-    @Autowired
-    private IBorrowingBooksRecordService borrowingBooksRecordService;
 
+    @Resource
+    private RedisTemplate redisTemplate;
     /**
      * 用户登录（与管理员登录一样）
      *
@@ -52,20 +55,6 @@ public class UserController {
 
 
 
-    /**
-     * 返回用户借书记录页面
-     *
-     * @param model
-     * @param request
-     * @return
-     */
-    @RequestMapping("/userBorrowBookRecord")
-    public String userBorrowBookRecord(Model model, HttpServletRequest request) {
-        //不用分页，返回一个借书记录的列表，数据存进去
-        ArrayList<BorrowingBooksVo> res = borrowingBooksRecordService.selectAllBorrowRecord(request);
-        model.addAttribute("borrowingBooksList", res);
-        return "user/borrowingBooksRecord";
-    }
 
     /**
      * 返回归还书籍页面
@@ -81,7 +70,7 @@ public class UserController {
     @RequestMapping("/userMessagePage")
     public String userMessagePage(Model model, HttpServletRequest request) {
         User session_user = (User) request.getSession().getAttribute("user");
-        User user = userService.findUserById(session_user.getUserId());
+        User user = userService.getById(session_user.getUserId());
         model.addAttribute("message_user", user);
         return "user/userMessage";
     }
@@ -95,13 +84,33 @@ public class UserController {
     }
 
 
+    /**
+     * 返回查询用户页面，和上面的代码差不多
+     * 使用Redis缓存技术
+     * @param model
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping("/showUsersPage")
+    public String showUsersPage(Model model, @RequestParam("pageNum") int pageNum) {
+        Page<User> page=null;
+        String key="showUsersPage"+"_"+pageNum;
+        page=(Page<User>)redisTemplate.opsForValue().get(key);
+        if (page!=null){
+            model.addAttribute("page", page);
+            return "admin/showUsers";
+        }
+        page = userService.findUserByPage(pageNum);
+        redisTemplate.opsForValue().set(key,page,30, TimeUnit.MINUTES);
+        model.addAttribute("page", page);
+        return "admin/showUsers";
+    }
 
     /**
+     * 更新用户信息
      * @param user
      * @param request
      * @return
-     * @author zbw
-     * 更新用户信息
      */
     @RequestMapping("/updateUser")
     @ResponseBody
@@ -111,7 +120,7 @@ public class UserController {
 
     /**
      * 用户还书
-     *
+     * 归还书籍成功之后删除掉对应Redis缓存中的数据
      * @param bookId
      * @param request
      * @return
@@ -119,12 +128,17 @@ public class UserController {
     @RequestMapping("/userReturnBook")
     @ResponseBody
     public boolean returnBook(int bookId, HttpServletRequest request) {
-        return userService.userReturnBook(bookId, request);
+        User user=(User) request.getSession().getAttribute("user");
+        boolean a=userService.userReturnBook(bookId, request);
+        if(a){
+            redisTemplate.delete("userBorrowBookRecord"+"_"+user.getUserId());
+        }
+        return a;
     }
 
     /**
      * 用户借书
-     *
+     * 借书后删除旧Redis缓存
      * @param bookId
      * @param request
      * @return
@@ -132,8 +146,12 @@ public class UserController {
     @RequestMapping("/userBorrowingBook")
     @ResponseBody
     public boolean borrowingBook(int bookId, HttpServletRequest request) {
-        System.out.println(bookId);
-        return userService.userBorrowingBook(bookId, request);
+        User user=(User) request.getSession().getAttribute("user");
+        boolean a=userService.userBorrowingBook(bookId, request);
+        if(a){
+            redisTemplate.delete("userBorrowBookRecord"+"_"+user.getUserId());
+        }
+        return a;
     }
 
 
@@ -168,8 +186,8 @@ public class UserController {
     @RequestMapping("/deleteUser")
     @ResponseBody
     public String deleteUserByUserId(@RequestParam("userId") int userId) {
-        int res = userService.deleteUserById(userId);
-        if (res > 0) {
+        boolean res = userService.removeById(userId);
+        if (res) {
             return "true";
         }
         return "false";
@@ -177,15 +195,18 @@ public class UserController {
 
     /**
      * 添加用户
-     *
+     * 添加后删除掉旧缓存
      * @param user
      * @return
      */
     @RequestMapping("/addUser")
     @ResponseBody
     public String addUser(User user) {
-        int res = userService.insertUser(user);
-        if (res > 0) {
+        boolean res = userService.save(user);
+        if (res) {
+            //清理掉所有用户的缓存数据
+            Set keys=redisTemplate.keys("showUsersPage_*");
+            redisTemplate.delete(keys);
             return "true";
         } else {
             return "false";

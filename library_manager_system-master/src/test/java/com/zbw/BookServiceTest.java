@@ -3,7 +3,7 @@ package com.zbw;
 import com.zbw.domain.Book;
 import com.zbw.domain.Vo.BookVo;
 import com.zbw.mapper.BookMapper;
-import com.zbw.service.IBookService;
+import com.zbw.service.BookService;
 import com.zbw.utils.page.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ public class BookServiceTest {
     @Resource
     private BookMapper bookMapper;
     @Resource
-    private IBookService bookService;
+    private BookService bookService;
     @Test
     public void testSelectBookByName(){
         List<BookVo> bookVoList=bookService.selectBooksByBookPartInfo("平凡的世界");
@@ -52,9 +52,5 @@ public class BookServiceTest {
         }
     }
 
-    @Test
-    public void testFindAllBookCountByCategoryId(){
-        int n=bookMapper.selectBookCountByCategoryId(1);
-        System.out.println(n);
-    }
+
 }

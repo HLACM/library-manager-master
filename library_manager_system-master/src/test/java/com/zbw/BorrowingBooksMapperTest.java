@@ -18,21 +18,5 @@ public class BorrowingBooksMapperTest {
     private BorrowingBooksMapper borrowingBooksMapper;
 
 
-    @Test
-    public void testSelectAllRecordCount(){
-        int count=borrowingBooksMapper.selectAllRecordCount(1);
-        System.out.println(count);
-    }
 
-    @Test
-    public void testSelectAllByPageNum(){
-        List<BorrowingBooks> list=borrowingBooksMapper.selectAllByPage(0,5);
-        int count=borrowingBooksMapper.selectAll();
-        System.out.println("count: "+count);
-        if(null!=list){
-            for(BorrowingBooks b:list){
-                System.out.println(b.getId()+" "+b.getBookId());
-            }
-        }
-    }
 }

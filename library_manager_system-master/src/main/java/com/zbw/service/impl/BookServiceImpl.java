@@ -1,12 +1,12 @@
 package com.zbw.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zbw.domain.Book;
 import com.zbw.domain.BorrowingBooks;
-import com.zbw.domain.BorrowingBooksExample;
 import com.zbw.domain.Vo.BookVo;
 import com.zbw.mapper.BookMapper;
-import com.zbw.mapper.BorrowingBooksMapper;
-import com.zbw.service.IBookService;
+import com.zbw.service.BookService;
+import com.zbw.service.BorrowingBooksService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class BookServiceImpl implements IBookService {
+public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements BookService {
 
-    @Autowired
-    private BookMapper bookMapper;
-    @Autowired
-    private BorrowingBooksMapper borrowingBooksMapper;
+
+    @Resource
+    private BorrowingBooksService borrowingBooksService;
+
 
     /**
      * 根据书名查找对应书籍
@@ -30,11 +30,9 @@ public class BookServiceImpl implements IBookService {
      */
     @Override
     public List<BookVo> selectBooksByBookPartInfo(String partInfo) {
-
         List<BookVo> bookVos = new LinkedList<>();
-
-        List<Book> books = bookMapper.selectBooksByPartInfo("%" + partInfo + "%");
-
+        //查询对应书籍数据
+        List<Book> books = this.query().like("book_name","%" + partInfo + "%").list();
         // 如果没有查到数据,则返回bookVos
         if (null == books) {
             return bookVos;
@@ -46,11 +44,7 @@ public class BookServiceImpl implements IBookService {
             bookVo.setBookName(b.getBookName());
             bookVo.setBookAuthor(b.getBookAuthor());
             bookVo.setBookPublish(b.getBookPublish());
-            BorrowingBooksExample borrowingBooksExample = new BorrowingBooksExample();
-            BorrowingBooksExample.Criteria criteria1 = borrowingBooksExample.createCriteria();
-            criteria1.andBookIdEqualTo(b.getBookId());
-            List<BorrowingBooks> borrowingBooks = borrowingBooksMapper.selectByExample(borrowingBooksExample);
-
+            List<BorrowingBooks> borrowingBooks = borrowingBooksService.query().eq("book_id", b.getBookId()).list();
             if (borrowingBooks == null || borrowingBooks.size() < 1) {
                 bookVo.setIsExist("可借");
             } else {
@@ -71,7 +65,7 @@ public class BookServiceImpl implements IBookService {
     @Override
     public Page<BookVo> findBooksByCategoryId(int categoryId, int pageNum) {
         //先根据分类id查询基础数据
-        List<Book> books = bookMapper.selectByCategoryId(categoryId, (pageNum - 1) * 10, 10);
+        List<Book> books = getBaseMapper().selectByCategoryId(categoryId, (pageNum - 1) * 10, 10);
         List<BookVo> bookVos = new LinkedList<>();
         Page<BookVo> page = new Page<>();
         if (null == books) {
@@ -86,10 +80,7 @@ public class BookServiceImpl implements IBookService {
             bookVo.setBookName(b.getBookName());
             bookVo.setBookAuthor(b.getBookAuthor());
             bookVo.setBookPublish(b.getBookPublish());
-            BorrowingBooksExample borrowingBooksExample = new BorrowingBooksExample();
-            BorrowingBooksExample.Criteria criteria1 = borrowingBooksExample.createCriteria();
-            criteria1.andBookIdEqualTo(b.getBookId());
-            List<BorrowingBooks> borrowingBooks = borrowingBooksMapper.selectByExample(borrowingBooksExample);
+            List<BorrowingBooks> borrowingBooks = borrowingBooksService.query().eq("book_id", b.getBookId()).list();
             if (borrowingBooks == null || borrowingBooks.size() < 1) {
                 bookVo.setIsExist("可借");
             } else {
@@ -101,7 +92,7 @@ public class BookServiceImpl implements IBookService {
         page.setList(bookVos);
         page.setPageNum(pageNum);
         page.setPageSize(10);
-        int bookCount = bookMapper.selectBookCountByCategoryId(categoryId);
+        int bookCount = this.query().eq("book_category", categoryId).count();
         int pageCount = 0;
         pageCount = bookCount / 10;
         if (bookCount % 10 != 0) {
@@ -112,6 +103,5 @@ public class BookServiceImpl implements IBookService {
             page.setPageCount(1);
         }
         return page;
-
     }
 }
