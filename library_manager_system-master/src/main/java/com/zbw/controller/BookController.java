@@ -2,20 +2,18 @@ package com.zbw.controller;
 
 import com.zbw.domain.*;
 import com.zbw.domain.Vo.BookVo;
-import com.zbw.service.IAdminService;
-import com.zbw.service.IBookCategoryService;
-import com.zbw.service.IBookService;
+import com.zbw.service.AdminService;
+import com.zbw.service.BookCategoryService;
+import com.zbw.service.BookService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -23,11 +21,11 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class BookController {
     @Autowired
-    private IAdminService adminService;
+    private AdminService adminService;
     @Autowired
-    private IBookService bookService;
+    private BookService bookService;
     @Autowired
-    private IBookCategoryService bookCategoryService;
+    private BookCategoryService bookCategoryService;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -87,7 +85,7 @@ public class BookController {
      */
     @RequestMapping("/findBookByBookPartInfo")
     public String findBooksResultPage(@RequestParam("bookPartInfo") String bookPartInfo, Model model) {
-        //参数为对应书籍的名字，通过名字查找对应的数据。由于展示的是一条数据所以不需要分页
+        //参数为对应书籍的名字的一部分，通过部分名字查找对应的数据。由于展示的是一条数据所以不需要分页
         List<BookVo> bookVos = bookService.selectBooksByBookPartInfo(bookPartInfo);
         model.addAttribute("bookList", bookVos);
         return "user/findBook";
@@ -132,8 +130,8 @@ public class BookController {
     @RequestMapping("/deleteCategory")
     @ResponseBody
     public String deleteBookCategoryById(@RequestParam("bookCategoryId") int bookCategoryId) {
-        int res = bookCategoryService.deleteBookCategoryById(bookCategoryId);
-        if (res > 0) {
+        boolean res = bookCategoryService.removeById(bookCategoryId);
+        if (res) {
             //清理掉所有该种类的缓存数据
             Set keys=redisTemplate.keys("addCategoryPage_*");
             redisTemplate.delete(keys);

@@ -2,25 +2,20 @@ package com.zbw.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zbw.domain.*;
-import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
 import com.zbw.mapper.UserMapper;
-import com.zbw.service.IUserService;
+import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
 
     @Autowired
     private UserMapper userMapper;

@@ -1,14 +1,13 @@
 package com.zbw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zbw.domain.Admin;
 import com.zbw.domain.Book;
 import com.zbw.domain.Vo.BookVo;
 import com.zbw.utils.page.Page;
 
 import java.util.List;
 
-public interface IBookService extends IService<Book> {
+public interface BookService extends IService<Book> {
 
     /**
      * 根据 书籍的部分信息 去数据库中查找书籍

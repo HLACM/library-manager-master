@@ -1,26 +1,20 @@
 package com.zbw.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zbw.domain.*;
 import com.zbw.mapper.AdminMapper;
-import com.zbw.mapper.BookCategoryMapper;
-import com.zbw.mapper.BookMapper;
-import com.zbw.service.IAdminService;
-import com.zbw.service.IBookCategoryService;
-import com.zbw.service.IBookService;
+import com.zbw.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
-public class AdminServiceImpl extends ServiceImpl<AdminMapper,Admin> implements IAdminService {
+public class AdminServiceImpl extends ServiceImpl<AdminMapper,Admin> implements AdminService {
 
     @Autowired
-    private IAdminService adminService;
+    private AdminService adminService;
 
 
     /**

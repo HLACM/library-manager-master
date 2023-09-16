@@ -1,8 +1,7 @@
 package com.zbw.controller;
 
-import com.zbw.domain.Vo.BookVo;
 import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.service.IBorrowingBooksRecordService;
+import com.zbw.service.BorrowingBooksService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,14 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Controller
 public class BorrowingController {
 
     @Autowired
-    private IBorrowingBooksRecordService borrowingBooksRecordService;
+    private BorrowingBooksService borrowingBooksRecordService;
 
     @Autowired
     private RedisTemplate redisTemplate;

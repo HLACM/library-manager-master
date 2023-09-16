@@ -1,23 +1,20 @@
 package com.zbw.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zbw.domain.Admin;
 import com.zbw.domain.BookCategory;
-import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookCategoryMapper;
-import com.zbw.service.IBookCategoryService;
+import com.zbw.service.BookCategoryService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class BookCategoryServiceImpl extends ServiceImpl<BookCategoryMapper, BookCategory> implements IBookCategoryService {
+public class BookCategoryServiceImpl extends ServiceImpl<BookCategoryMapper, BookCategory> implements BookCategoryService {
 
     @Autowired
-    private IBookCategoryService bookCategoryService;
+    private BookCategoryService bookCategoryService;
 
     @Autowired
     private BookCategoryMapper bookCategoryMapper;
@@ -36,7 +33,7 @@ public class BookCategoryServiceImpl extends ServiceImpl<BookCategoryMapper, Boo
         page.setPageSize(10);
         page.setPageNum(pageNum);
         page.setList(list);
-        int recordCount = bookCategoryMapper.selectAllCount();
+        int recordCount = bookCategoryService.count();
         int pageCount = recordCount / 10;
         if (recordCount % 10 != 0) {
             pageCount++;
@@ -45,8 +42,4 @@ public class BookCategoryServiceImpl extends ServiceImpl<BookCategoryMapper, Boo
         return page;
     }
 
-    @Override
-    public int deleteBookCategoryById(int bookCategoryId) {
-        return bookCategoryMapper.deleteByPrimaryKey(bookCategoryId);
-    }
 }

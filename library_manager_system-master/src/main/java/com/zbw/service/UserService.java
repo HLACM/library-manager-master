@@ -1,15 +1,13 @@
 package com.zbw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zbw.domain.Admin;
 import com.zbw.domain.User;
-import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.utils.page.Page;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public interface IUserService extends IService<User> {
+public interface UserService extends IService<User> {
 
     // 查询用户名 为"userName"的所有用户
     List<User> findUserByUserName(String userName);

@@ -3,9 +3,8 @@ package com.zbw.controller;
 
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.service.IBorrowingBooksRecordService;
-import com.zbw.service.IUserService;
-import com.zbw.utils.page.Page;
+import com.zbw.service.BorrowingBooksService;
+import com.zbw.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,10 +24,10 @@ import java.util.concurrent.TimeUnit;
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
-    private IBorrowingBooksRecordService borrowingBooksRecordService;
+    private BorrowingBooksService borrowingBooksRecordService;
 
     @Autowired
     private RedisTemplate redisTemplate;

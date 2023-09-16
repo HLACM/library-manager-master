@@ -2,13 +2,10 @@ package com.zbw.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zbw.domain.Admin;
-import com.zbw.domain.Book;
-import com.zbw.domain.BookCategory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
-public interface IAdminService extends IService<Admin> {
+public interface AdminService extends IService<Admin> {
 
 
     //管理员登陆

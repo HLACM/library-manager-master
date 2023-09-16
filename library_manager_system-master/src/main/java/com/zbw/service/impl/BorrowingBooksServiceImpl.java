@@ -1,35 +1,34 @@
 package com.zbw.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zbw.domain.Admin;
 import com.zbw.domain.Book;
 import com.zbw.domain.BorrowingBooks;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
 import com.zbw.mapper.UserMapper;
-import com.zbw.service.IBorrowingBooksRecordService;
+import com.zbw.service.BookService;
+import com.zbw.service.BorrowingBooksService;
+import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class BorrowingBooksRecordServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements IBorrowingBooksRecordService {
+public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements BorrowingBooksService {
     @Autowired
     private BorrowingBooksMapper borrowingBooksMapper;
 
     @Autowired
-    private BookMapper bookMapper;
+    private BookService bookService;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
 
     /**
@@ -48,8 +47,8 @@ public class BorrowingBooksRecordServiceImpl extends ServiceImpl<BorrowingBooksM
         Page<BorrowingBooksVo> page = new Page<BorrowingBooksVo>();
         List<BorrowingBooksVo> borrowingBooksVos = new LinkedList<>();
         for (BorrowingBooks b : list) {
-            User user = userMapper.selectByPrimaryKey(b.getUserId());
-            Book book = bookMapper.selectByPrimaryKey(b.getBookId());
+            User user = userService.getById(b.getUserId());
+            Book book = bookService.getById(b.getBookId());
             BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
 
             borrowingBooksVo.setUser(user);
@@ -75,8 +74,7 @@ public class BorrowingBooksRecordServiceImpl extends ServiceImpl<BorrowingBooksM
         page.setPageSize(10);
 
         //查找总页数
-        int recordCount = 0;//总和记录
-        recordCount = borrowingBooksMapper.selectAll();
+        int recordCount = this.count();//总和记录
         //计算页数
         int pageCount = recordCount / 10;
         if (recordCount % 10 != 0) {

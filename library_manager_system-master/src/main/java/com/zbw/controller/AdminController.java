@@ -4,9 +4,9 @@ import com.zbw.domain.Admin;
 import com.zbw.domain.BookCategory;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BookVo;
-import com.zbw.service.IAdminService;
-import com.zbw.service.IBookCategoryService;
-import com.zbw.service.IUserService;
+import com.zbw.service.AdminService;
+import com.zbw.service.BookCategoryService;
+import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
@@ -26,11 +25,11 @@ import java.util.concurrent.TimeUnit;
 public class AdminController {
 
     @Autowired
-    private IAdminService adminService;
+    private AdminService adminService;
     @Autowired
-    private IBookCategoryService bookCategoryService;
+    private BookCategoryService bookCategoryService;
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @Autowired
     private RedisTemplate redisTemplate;

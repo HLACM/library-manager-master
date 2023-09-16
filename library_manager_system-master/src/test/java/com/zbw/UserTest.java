@@ -3,8 +3,8 @@ package com.zbw;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.mapper.UserMapper;
-import com.zbw.service.IBorrowingBooksRecordService;
-import com.zbw.service.IUserService;
+import com.zbw.service.BorrowingBooksService;
+import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +18,11 @@ import java.util.List;
 @SpringBootTest
 public class UserTest {
     @Resource
-    private IUserService userService;
+    private UserService userService;
     @Resource
     private UserMapper userMapper;
     @Resource
-    private IBorrowingBooksRecordService borrowingBooksRecordService;
+    private BorrowingBooksService borrowingBooksRecordService;
     @Test
     public void findUsersByName(){
         List<User> users=userService.findUserByUserName("yxc");
