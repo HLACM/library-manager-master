@@ -8,7 +8,6 @@ $(document).ready(function () {
 
     // 按钮监听事件，提交按钮
     $("#btn_addBookCategory").click (function () {
-        alert(1);
         // 点击提交按钮后执行
         addBookCategory();
         // 阻止表单跳转
