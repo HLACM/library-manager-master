@@ -57,7 +57,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">书 名</label>
                     <div class="layui-input-inline">
-                        <input required lay-verify="required" id="bookName" type="text" name="bookName"
+                        <!--  lay-verify = "required"对该标签进行必填验证,如果未填写会提示信息   -->
+                        <input lay-verify="required" id="bookName" type="text" name="bookName"
                                placeholder="请输入书名" autofocus
                                class="layui-input" autocomplete="off">
                     </div>
@@ -66,6 +67,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">作 者</label>
                     <div class="layui-input-inline">
+                        <!--  lay-verify = "required"对该标签进行必填验证,如果未填写会提示信息   -->
                         <input id="bookAuthor" lay-verify="required" type="text" name="bookAuthor" placeholder="请输入作者"
                                autocomplete="off" class="layui-input">
                     </div>
@@ -74,6 +76,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">出版社</label>
                     <div class="layui-input-inline">
+                        <!--  lay-verify = "required"对该标签进行必填验证,如果未填写会提示信息   -->
                         <input id="bookPublish" lay-verify="required" type="text" name="bookPublish"
                                placeholder="请输入出版社" autocomplete="off"
                                class="layui-input">
@@ -83,6 +86,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">类 别</label>
                     <div class="layui-input-inline">
+                        <!--  lay-verify = "required"对该标签进行必填验证,如果未填写会提示信息   -->
                         <select lay-verify="required" id="bookCategory" name="bookCategory">
                         </select>
                     </div>
@@ -91,8 +95,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">价 格</label>
                     <div class="layui-input-inline">
-                        <input id="bookPrice" lay-verify="number" type="text" name="bookPrice" placeholder="￥"
-                               autocomplete="off" class="layui-input">
+                        <!--  lay-verify = "required"对该标签进行必填验证,如果未填写会提示信息,number则会验证输入是否为数字   -->
+                        <input id="bookPrice" lay-verify="required|number" type="text" name="bookPrice" placeholder="￥"
+                                   autocomplete="off" class="layui-input">
                     </div>
                 </div>
 

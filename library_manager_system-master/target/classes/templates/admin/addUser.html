@@ -55,6 +55,7 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
+                <!-- lay-verify="required"验证必填项               -->
                 <input type="text" class="layui-input layui-input-inline" id="userName" autocomplete="off" autofocus
                        name="userName" lay-verify="required"
                        placeholder="请输入用户名"><br><br>
@@ -63,13 +64,15 @@
 
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
+                <!-- lay-verify="required"验证必填项               -->
                 <input class="layui-input layui-input-inline" type="password" id="password"
                        lay-verify="required" name="userPwd" placeholder="请输入密码">
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
-                <input class="layui-input layui-input-inline" type="text" lay-verify="email"
+                <!-- lay-verify="required"验证必填项，email验证邮箱               -->
+                <input class="layui-input layui-input-inline" type="text" lay-verify="required|email"
                        id="email" name="userEmail" placeholder="请输入邮箱">
             </div>
 
