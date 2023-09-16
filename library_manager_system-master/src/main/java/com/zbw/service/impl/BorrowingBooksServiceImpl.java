@@ -44,6 +44,7 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
 
             borrowingBooksVo.setUser(user);
             borrowingBooksVo.setBook(book);
+
             //日期转换
             Date date1 = b.getDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -60,6 +61,9 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
             borrowingBooksVo.setDateOfReturn(dateOfReturn);
             borrowingBooksVos.add(borrowingBooksVo);
         }
+
+
+
         page.setList(borrowingBooksVos);
         page.setPageNum(pageNum);
         page.setPageSize(10);
