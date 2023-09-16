@@ -2,8 +2,10 @@ package com.zbw;
 
 import com.zbw.domain.BookCategory;
 import com.zbw.mapper.BookCategoryMapper;
+import com.zbw.service.IAdminService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,8 +16,12 @@ import java.util.List;
 @SpringBootTest
 public class BookCategoryMapperTest {
 
-    @Resource
+    @Autowired
     private BookCategoryMapper bookCategoryMapper;
+
+    @Autowired
+    private IAdminService adminService;
+
     @Test
     public void tesrSelectByPageNum(){
 
@@ -31,5 +37,15 @@ public class BookCategoryMapperTest {
     public void testSelectAllCount(){
         int n=bookCategoryMapper.selectAllCount();
         System.out.println(n);
+    }
+
+
+    @Test
+    public void testAddBookCategory(){
+        BookCategory bookCategory=new BookCategory();
+        bookCategory.setCategoryId(99);
+        bookCategory.setCategoryName("xxx");
+        System.out.println(adminService.addBookCategory(bookCategory));
+
     }
 }
