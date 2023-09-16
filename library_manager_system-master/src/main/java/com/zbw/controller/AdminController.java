@@ -1,30 +1,24 @@
 package com.zbw.controller;
 
 import com.zbw.domain.Admin;
-import com.zbw.domain.BookCategory;
-import com.zbw.domain.User;
 import com.zbw.domain.Vo.BookVo;
 import com.zbw.service.AdminService;
-import com.zbw.service.BookCategoryService;
-import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.TimeUnit;
+
 
 @Controller
 public class AdminController {
 
-    @Autowired
+    @Resource
     private AdminService adminService;
 
     /**

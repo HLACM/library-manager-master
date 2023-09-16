@@ -2,8 +2,6 @@ package com.zbw.controller;
 
 
 import com.zbw.domain.User;
-import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.service.BorrowingBooksService;
 import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Set;
@@ -24,11 +23,11 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class UserController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
     /**
      * 用户登录（与管理员登录一样）

@@ -15,18 +15,13 @@ import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements BorrowingBooksService {
-
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private UserService userService;
 
     /**
      * 查询对应的借书信息
@@ -35,7 +30,6 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
      */
     @Override
     public Page<BorrowingBooksVo> selectAllByPage(int pageNum) {
-
         //查询10条数据
         List<BorrowingBooks> list = getBaseMapper().selectAllByPage((pageNum - 1) * 10, 10);
         if (null == list) {
@@ -44,8 +38,8 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
         Page<BorrowingBooksVo> page = new Page<BorrowingBooksVo>();
         List<BorrowingBooksVo> borrowingBooksVos = new LinkedList<>();
         for (BorrowingBooks b : list) {
-            User user = userService.getById(b.getUserId());
-            Book book = bookService.getById(b.getBookId());
+            User user = getBaseMapper().selectUserById(b.getUserId());
+            Book book = getBaseMapper().selectBookById(b.getBookId());
             BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
 
             borrowingBooksVo.setUser(user);
@@ -101,7 +95,7 @@ public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper,
         //创建BorrowingBooksVo类型的集合，并为它注入属性
         ArrayList<BorrowingBooksVo> borrowingBooksVos = new ArrayList<>();
         for (BorrowingBooks b : list) {
-            Book book = bookService.getById(b.getBookId());
+            Book book = getBaseMapper().selectBookById(b.getBookId());
             BorrowingBooksVo borrowingBooksVo = new BorrowingBooksVo();
 
             borrowingBooksVo.setBook(book);

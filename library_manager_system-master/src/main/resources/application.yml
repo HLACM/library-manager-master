@@ -1,6 +1,3 @@
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.zbw.domain
 
 # 默认是8080端口 , 配置为80端口在浏览器访问时不需要输入端口号
 server:
@@ -10,10 +7,10 @@ spring:
   # 用户名 密码 需要根据实际情况修改
   datasource:
     druid:
-      driverClassName: com.mysql.cj.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
       password: 123456
       url: jdbc:mysql://localhost:3306/libraryManagerSystem?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: root
   redis:
     host: localhost
     port: 6379
@@ -23,9 +20,14 @@ spring:
     view:
       prefix: classpath:/templates/
       suffix: .html
+#  main:
+#    allow-circular-references: true
+
 mybatis-plus:
   configuration:
     #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    type-aliases-package: com.zbw.domain # 别名扫描包
+#    开启日志
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

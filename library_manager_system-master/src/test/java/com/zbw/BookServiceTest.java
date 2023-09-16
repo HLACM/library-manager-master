@@ -52,9 +52,5 @@ public class BookServiceTest {
         }
     }
 
-    @Test
-    public void testFindAllBookCountByCategoryId(){
-        int n=bookMapper.selectBookCountByCategoryId(1);
-        System.out.println(n);
-    }
+
 }

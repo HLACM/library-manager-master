@@ -2,8 +2,6 @@ package com.zbw.controller;
 
 import com.zbw.domain.*;
 import com.zbw.domain.Vo.BookVo;
-import com.zbw.service.AdminService;
-import com.zbw.service.BookCategoryService;
 import com.zbw.service.BookService;
 import com.zbw.utils.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -21,10 +20,10 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class BookController {
 
-    @Autowired
+    @Resource
     private BookService bookService;
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
 
     /**

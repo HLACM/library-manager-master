@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -18,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class BorrowingController {
 
-    @Autowired
+    @Resource
     private BorrowingBooksService borrowingBooksRecordService;
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
 
     /**

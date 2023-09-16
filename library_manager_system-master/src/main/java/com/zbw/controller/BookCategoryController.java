@@ -11,17 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Controller
 public class BookCategoryController {
-    @Autowired
+    @Resource
     private BookCategoryService bookCategoryService;
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
+
+
     /**
      * 点击新建类别返回类别页面，默认展示第一页
      * 使用Redis缓存技术，先查询redis中是否有数据，有则返回redis中数据，没有则存入数据入Redis中
