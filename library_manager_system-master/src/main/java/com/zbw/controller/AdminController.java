@@ -46,15 +46,6 @@ public class AdminController {
         return "admin/index";
     }
 
-    /**
-     * 点击录入新书返回添加书籍页面
-     */
-    @RequestMapping("/addBookPage")
-    public String addBookPage() {
-        return "admin/addBook";
-    }
-
-
 
 
 
@@ -86,18 +77,7 @@ public class AdminController {
         return "index";
     }
 
-    /**
-     * 返回新增用户页面
-     */
-    @RequestMapping("/addUserPage")
-    public String addUserPage() {
-        return "admin/addUser";
-    }
 
-    @RequestMapping("/adminInfoPage")
-    public String adminInfo() {
-        return "admin/adminInfo";
-    }
     
     /**
      * 更新管理员信息

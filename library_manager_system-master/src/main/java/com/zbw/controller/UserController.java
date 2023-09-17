@@ -55,15 +55,6 @@ public class UserController {
 
 
 
-
-    /**
-     * 返回归还书籍页面
-     */
-    @RequestMapping("/userReturnBooksPage")
-    public String userReturnBooksPage() {
-        return "user/returnBooks";
-    }
-
     /**
      * 搜索并保存用户个人信息并返回页面
      */
@@ -73,14 +64,6 @@ public class UserController {
         User user = userService.getById(session_user.getUserId());
         model.addAttribute("message_user", user);
         return "user/userMessage";
-    }
-
-    /**
-     * 返回借书页面
-     */
-    @RequestMapping("/borrowingPage")
-    public String borrowing() {
-        return "user/borrowingBooks";
     }
 
 
@@ -155,7 +138,6 @@ public class UserController {
     }
 
 
-
     /**
      * 用户退出登陆
      *
@@ -166,14 +148,6 @@ public class UserController {
     public String userLogOut(HttpServletRequest request) {
         request.getSession().invalidate();
         return "index";
-    }
-
-    /**
-     * 返回用户查询书籍页面
-     */
-    @RequestMapping("/findBookPage")
-    public String findBookPage() {
-        return "user/findBook";
     }
 
 

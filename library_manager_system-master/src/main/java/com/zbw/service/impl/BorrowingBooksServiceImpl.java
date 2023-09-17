@@ -5,17 +5,11 @@ import com.zbw.domain.Book;
 import com.zbw.domain.BorrowingBooks;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
-import com.zbw.mapper.BookMapper;
 import com.zbw.mapper.BorrowingBooksMapper;
-import com.zbw.mapper.UserMapper;
-import com.zbw.service.BookService;
 import com.zbw.service.BorrowingBooksService;
-import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;

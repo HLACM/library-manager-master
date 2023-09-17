@@ -30,25 +30,26 @@ $(document).ready(function () {
     });
 });
 
+// 定义函数：查询所有书籍分类
 function findAllBookCategory() {
     $.ajax({
-        async: false,
-        type: "post",
-        url: "/findAllBookCategory",
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
+        async: false, // 同步请求
+        type: "post", // 请求类型为POST
+        url: "/findAllBookCategory", // 请求的URL
+        dataType: "json", // 响应数据类型为JSON
+        success: function (data) { // 请求成功的回调函数
+            console.log(data); // 在控制台输出数据
 
-            $("select[name='bookCategory']").empty();
-            $("select[name='bookCategory']").append('<option value="">——请选择——</option>');
-            for (let i = 0; i < data.length; i++) {
-                let html = '<option value="' + data[i].categoryId + '">';
-                html += data[i].categoryName + '</option>';
-                $("select[name='bookCategory']").append(html);
+            $("select[name='bookCategory']").empty(); // 清空名为 "bookCategory" 的选择框
+            $("select[name='bookCategory']").append('<option value="">——请选择——</option>'); // 添加一个默认的选项
+            for (let i = 0; i < data.length; i++) { // 遍历获取的数据
+                let html = '<option value="' + data[i].categoryId + '">'; // 创建一个option标签，并设置value属性为categoryId
+                html += data[i].categoryName + '</option>'; // 设置option标签的显示文本为categoryName
+                $("select[name='bookCategory']").append(html); // 将option标签添加到选择框中
             }
         },
-        error: function (data) {
-            alert(data.result);
+        error: function (data) { // 请求失败的回调函数
+            alert(data.result); // 弹出错误信息
         }
     });
 };
