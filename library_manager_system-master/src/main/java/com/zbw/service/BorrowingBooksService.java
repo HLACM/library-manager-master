@@ -13,6 +13,8 @@ public interface BorrowingBooksService extends IService<BorrowingBooks> {
     //分页查询所有用户借书记录 【管理员使用】
     public Page<BorrowingBooksVo> selectAllByPage(int pageNum);
 
+    //用户还书
+    public boolean userReturnBook(int bookId, HttpServletRequest request);
 
     // 查询用户的所有借书记录 【普通用户使用】
     public ArrayList<BorrowingBooksVo> selectAllBorrowRecord(HttpServletRequest request);

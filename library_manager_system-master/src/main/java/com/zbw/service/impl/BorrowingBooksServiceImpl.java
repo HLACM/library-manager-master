@@ -1,5 +1,8 @@
 package com.zbw.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zbw.domain.Book;
 import com.zbw.domain.BorrowingBooks;
@@ -16,6 +19,28 @@ import java.util.*;
 
 @Service
 public class BorrowingBooksServiceImpl extends ServiceImpl<BorrowingBooksMapper, BorrowingBooks> implements BorrowingBooksService {
+
+    /**
+     * 用户还书
+     * @param bookId
+     * @param request
+     * @return
+     */
+    @Override
+    public boolean userReturnBook(int bookId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+//        QueryChainWrapper<BorrowingBooks> queryChainWrapper =
+//                this.query().eq("user_id", user.getUserId()).eq("book_id", bookId);
+//        boolean n = this.remove(queryChainWrapper);
+        QueryWrapper<BorrowingBooks> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", user.getUserId()).eq("book_id", bookId);
+        boolean n = this.remove(queryWrapper);
+//        LambdaQueryWrapper<BorrowingBooks> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(BorrowingBooks::getUserId, user.getUserId())
+//                .eq(BorrowingBooks::getBookId, bookId);
+//        boolean n = this.remove(queryWrapper);
+        return n;
+    }
 
     /**
      * 查询对应的借书信息

@@ -5,7 +5,7 @@ import com.zbw.domain.User;
 import com.zbw.service.UserService;
 import com.zbw.utils.page.Page;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -101,23 +101,7 @@ public class UserController {
         return userService.updateUser(user, request);
     }
 
-    /**
-     * 用户还书
-     * 归还书籍成功之后删除掉对应Redis缓存中的数据
-     * @param bookId
-     * @param request
-     * @return
-     */
-    @RequestMapping("/userReturnBook")
-    @ResponseBody
-    public boolean returnBook(int bookId, HttpServletRequest request) {
-        User user=(User) request.getSession().getAttribute("user");
-        boolean a=userService.userReturnBook(bookId, request);
-        if(a){
-            redisTemplate.delete("userBorrowBookRecord"+"_"+user.getUserId());
-        }
-        return a;
-    }
+
 
     /**
      * 用户借书

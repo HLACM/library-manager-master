@@ -1,5 +1,6 @@
 package com.zbw.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zbw.domain.*;
@@ -56,13 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
 
 
-    @Override
-    public boolean userReturnBook(int bookId, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        QueryChainWrapper<BorrowingBooks> queryChainWrapper = borrowingBooksService.query().eq("user_id", user.getUserId()).eq("book_id", bookId);
-        boolean n = borrowingBooksService.remove(queryChainWrapper);
-        return n;
-    }
+
 
     @Override
     public boolean userBorrowingBook(int bookId, HttpServletRequest request) {

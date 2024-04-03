@@ -2,6 +2,7 @@ package com.zbw;
 
 import com.zbw.domain.Admin;
 import com.zbw.domain.BookCategory;
+import com.zbw.mapper.AdminMapper;
 import com.zbw.mapper.BookCategoryMapper;
 import com.zbw.service.AdminService;
 import org.junit.Test;
@@ -19,14 +20,16 @@ public class BookCategoryMapperTest {
 
     @Resource
     private BookCategoryMapper bookCategoryMapper;
+    @Resource
+    private AdminMapper adminMapper;
 
     @Resource
     private AdminService adminService;
 
     @Test
     public void login(){
-        Admin admin = adminService.adminLogin("admin", "123456");
-        System.out.println(admin.toString());
+        List<Admin> list = adminMapper.selectList(null);
+        System.out.println(list);
     }
 
 

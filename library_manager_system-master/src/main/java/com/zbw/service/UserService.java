@@ -17,8 +17,6 @@ public interface UserService extends IService<User> {
 
     //查询用户借书记录
 
-    //用户还书
-    boolean userReturnBook(int bookId, HttpServletRequest request);
 
     //用户借书 
     boolean userBorrowingBook(int bookId, HttpServletRequest request);

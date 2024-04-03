@@ -1,5 +1,7 @@
 package com.zbw;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zbw.domain.User;
 import com.zbw.domain.Vo.BorrowingBooksVo;
 import com.zbw.mapper.UserMapper;
@@ -25,6 +27,15 @@ public class UserTest {
     private BorrowingBooksService borrowingBooksRecordService;
 
 
+    @Test
+    public void ReturnBook(){
+//        LambdaQueryWrapper<User> queryWrapper=new LambdaQueryWrapper<>();
+//        queryWrapper.eq(User::getUserId,23);
+
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("user_id",23);
+        userService.remove(queryWrapper);
+    }
 
     @Test
     public void selectByPage(){
