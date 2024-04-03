@@ -1,8 +1,10 @@
 # 一、作品说明
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps1.jpg) 
+![img](assets\wps1.jpg) 
 
-这是一个简洁的东莞理工图书室管理系统，分为两个目标群体，分别是普通学生和管理员。学生可以使用的功能有借阅书籍、查看借书记录，归还书籍和查询书籍。管理员可以使用的功能有管理所有书籍、用户和查看借阅信息。
+这是一个简洁的东莞理工图书室管理系统，分为两个目标群体，分别是普通学生和管理员。学生可以使用的功能有借阅书籍、查看借书记
+
+录，归还书籍和查询书籍。管理员可以使用的功能有管理所有书籍、用户和查看借阅信息。
 
 下面是可以使用的功能的演示：
 
@@ -10,7 +12,7 @@
 
 登录页面：
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps2.jpg) 
+![img](assets\wps2.jpg) 
 
 分为学生和管理员登录
 
@@ -18,19 +20,19 @@
 
 用户主页面：采用东莞理工学院的经典绿色，让系统更加有辨识度
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps3.jpg) 
+![img](assets\wps3.jpg) 
 
  
 
 功能演示：
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps4.jpg) 
+![img](assets\wps4.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps5.jpg) 
+![img](assets\wps5.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps6.jpg) 
+![img](assets\wps6.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps7.jpg) 
+![img](assets\wps7.jpg) 
 
  
 
@@ -40,21 +42,21 @@
 
 管理员功能演示：
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps8.jpg) 
+![img](assets\wps8.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps9.jpg) 
+![img](assets\wps9.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps10.jpg) 
+![img](assets\wps10.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps11.jpg) 
+![img](assets\wps11.jpg) 
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps12.jpg) 
-
- 
+![img](assets\wps12.jpg) 
 
  
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps13.jpg) 
+ 
+
+![img](assets\wps13.jpg) 
 
  
 
@@ -81,11 +83,11 @@
 
 模块包：
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps14.jpg) 
+![img](assets\wps14.jpg) 
 
 数据库表结构设计：
 
-![img](file:///C:\Users\86183\AppData\Local\Temp\ksohtml11592\wps15.jpg) 
+![img](assets\wps15.jpg) 
 
 数据库一共有五张表，分别是admin，book_category，book，borrowwingbooks，user。表中记录着相对应的信息。
 
